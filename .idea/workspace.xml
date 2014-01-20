@@ -3,14 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="0686b57f-de80-4b20-bb85-ba30400fae4b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests.py" afterPath="$PROJECT_DIR$/tests.py" />
     </list>
     <ignored path="pi_tower_lamp.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390246760170" ignored="false" />
     <file path="/tests.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390248526696" ignored="false" />
-    <file path="/README.md" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390247391580" ignored="false" />
+    <file path="/README.md" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390249467307" ignored="false" />
     <file path="/a.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390247826089" ignored="false" />
     <file path="/main.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390248420243" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,10 +30,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="tests.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="tests.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="58" selection-start="961" selection-end="961" vertical-scroll-proportion="0.47619048">
+            <state line="20" column="20" selection-start="654" selection-end="654" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -43,10 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="24" selection-start="218" selection-end="242" vertical-scroll-proportion="0.0">
+            <state line="21" column="41" selection-start="999" selection-end="999" vertical-scroll-proportion="0.36248562">
               <folding />
             </state>
           </provider>
@@ -62,7 +60,7 @@
       <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="30" selection-start="68" selection-end="68" vertical-scroll-proportion="0.0">
+            <state line="2" column="0" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,9 +84,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/tests.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -340,26 +338,26 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="24" selection-start="218" selection-end="242" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="20" column="20" selection-start="654" selection-end="654" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="30" selection-start="68" selection-end="68" vertical-scroll-proportion="0.0">
+        <state line="2" column="0" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests.py">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="58" selection-start="961" selection-end="961" vertical-scroll-proportion="0.47619048">
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state line="21" column="41" selection-start="999" selection-end="999" vertical-scroll-proportion="0.36248562">
+          <folding />
         </state>
       </provider>
     </entry>
