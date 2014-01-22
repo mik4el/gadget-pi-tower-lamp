@@ -3,7 +3,7 @@ import Image
 import main
 
 
-class TestRGBForPixel(unittest.TestCase):
+class TestRGBForTower(unittest.TestCase):
     def setUp(self):
         TEST_IMAGE_NAME = "tower_test_01.jpg"
         self.image = Image.open(TEST_IMAGE_NAME)
@@ -48,3 +48,41 @@ class TestRGBForPixel(unittest.TestCase):
         result = main.RGBForPixel(x=1, y=1, pixelsInImage=self.pixelsInImage)
         self.assertEqual(len(result), 3)
         self.assertEqual(self.pixelsInImage[1, 1], result)
+
+    def test_RGBForAllWindows(self):
+        """
+        Test function RGBForAllWindows
+        """
+        result = main.RGBForAllWindows(pixelsInImage=self.pixelsInImage)
+        self.assertEqual(len(result), 10)
+        self.assertEqual(len(result[0]), 3)
+
+    def test_hexFromRGB(self):
+        RGB = (0, 0, 0)
+        result = main.hexFromRGB(RGB)
+        self.assertEqual(result, '#%02x%02x%02x' % RGB)
+
+    def test_averageRGB(self):
+        TEST_RGBS = [
+            (1, 1, 1),
+            (1, 1, 1)
+        ]
+        result = main.averageRGB(TEST_RGBS)
+        self.assertEqual(result, (1, 1, 1))
+        TEST_RGBS = [
+            (1, 1, 1)
+        ]
+        result = main.averageRGB(TEST_RGBS)
+        self.assertEqual(result, (1, 1, 1))
+        TEST_RGBS = [
+            (1, 1, 1),
+            (2, 2, 2)
+        ]
+        result = main.averageRGB(TEST_RGBS)
+        self.assertEqual(result, (1, 1, 1))
+        TEST_RGBS = [
+            (1, 1, 1),
+            (3, 3, 3)
+        ]
+        result = main.averageRGB(TEST_RGBS)
+        self.assertEqual(result, (2, 2, 2))
