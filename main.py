@@ -51,10 +51,6 @@ def hexFromRGB(RGB):
     return '#%02x%02x%02x' % RGB
 
 
-def downloadTowerImage():
-    os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
-
-
 class PITowerModel:
     def __init__(self, imageName):
         self.imageName = imageName
@@ -62,9 +58,12 @@ class PITowerModel:
         self.allWindowsRGB = None
         self.averageWindowRGB = None
 
+    def downloadTowerImage():
+        os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
+
     def update(self):
         #Download new image
-        downloadTowerImage()
+        self.downloadTowerImage()
 
         #Load image
         self.image = Image.open(self.imageName)

@@ -11,7 +11,7 @@
     <file path="/tests.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390422218705" ignored="false" />
     <file path="/README.md" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390461370502" ignored="false" />
     <file path="/a.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390247826089" ignored="false" />
-    <file path="/main.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390511699903" ignored="false" />
+    <file path="/main.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390511899672" ignored="false" />
     <file path="/.gitignore" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390423524113" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +51,7 @@
       <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="52" selection-start="3034" selection-end="3034" vertical-scroll-proportion="0.8979592">
+            <state line="65" column="31" selection-start="1494" selection-end="1512" vertical-scroll-proportion="0.4387755">
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -471,7 +471,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="52" selection-start="3034" selection-end="3034" vertical-scroll-proportion="0.8979592">
+        <state line="65" column="31" selection-start="1494" selection-end="1512" vertical-scroll-proportion="0.4387755">
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
