@@ -1,5 +1,7 @@
 from Tkinter import *
 from PIL import Image, ImageTk
+import os
+import time
 
 
 def RGBForPixel(x, y, pixelsInImage):
@@ -49,30 +51,52 @@ def hexFromRGB(RGB):
     return '#%02x%02x%02x' % RGB
 
 
-def showVisualization(imageName):
-    #Start Tkinter
-    root = Tk()
-    root.title = "PI Tower Lamp Visualization"
+def downloadTowerImage():
+    os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
 
-    #Load image
-    image = Image.open(imageName)
-    tkImage = ImageTk.PhotoImage(image)
-    pixelsInImage = image.load()
 
-    #Get RGB from image
-    allWindowsRGB = RGBForAllWindows(pixelsInImage)
+class PITowerLampVisualization:
+    def __init__(self, imageName):
+        #Start Tkinter
+        self.root = Tk()
+        self.root.title("PI Tower Lamp Visualization")
 
-    #Draw GUI
-    canvas = Canvas(root, width=1250, height=1000)
-    canvas.pack()
-    for i in range(10):
-        canvas.create_rectangle(0, 100*i, 200, 100*(1+i), fill=str(hexFromRGB(allWindowsRGB[9-i])))
+        #Load image
+        self.image = None
+        self.tkImage = None
+        self.pixelsInImage = None
 
-    #Draw average RGB block
-    canvas.create_rectangle(250, 450, 450, 550, fill=hexFromRGB(averageRGB(allWindowsRGB)))
-    #Draw tower visualization
-    canvas.create_image(900, 500, image=tkImage)
+        #Draw GUI
+        self.canvas = Canvas(self.root, width=1250, height=1000)
+        self.canvas.pack()
+        self.root.after(0, self.visualizeImage(imageName))
+        self.root.mainloop()
 
-    mainloop()
+    def visualizeImage(self, imageName):
+        while(True):
 
-showVisualization("tower_test_01.jpg")
+            #Download new image
+            downloadTowerImage()
+
+            #Load image
+            self.image = Image.open(imageName)
+            self.tkImage = ImageTk.PhotoImage(self.image)
+            self.pixelsInImage = self.image.load()
+
+            #Get RGB from image
+            allWindowsRGB = RGBForAllWindows(self.pixelsInImage)
+
+            for i in range(10):
+                self.canvas.create_rectangle(0, 100*i, 200, 100*(1+i), fill=str(hexFromRGB(allWindowsRGB[9-i])))
+
+            #Draw average RGB block
+            self.canvas.create_rectangle(250, 450, 450, 550, fill=hexFromRGB(averageRGB(allWindowsRGB)))
+            #Draw tower visualization
+            self.canvas.create_image(900, 500, image=self.tkImage)
+
+            print "Updated!"
+            self.canvas.update()
+
+            time.sleep(5)
+
+PITowerLampVisualization("tower_temp.jpg")

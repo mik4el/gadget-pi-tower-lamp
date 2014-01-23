@@ -3,18 +3,15 @@ Controlling a circuit of rgb leds to match colors in windows of the Telefonplan 
 When a color changes in the Tower the lamp goes through the ten new colors in sequence and ends with average color.
 
 ### Tests
-TestRGBForPixel tests that function RGBForPixel works.
-
 Run tests with this command:
 python -m unittest tests
 
+### Dependencies
+Python 2.7, PIL, curl
+
 ### Todo
-1. Find pixel position of window's center in webcam image for all ten windows
-1. Read test image and print colors per window for all ten windows in image
-1. Visualize the ten colors in commandline
-1. Get average color from ten colors and visualize
-1. Simulate in commandline behaviour of led
-1. Download image from online
+1. Make filter to detect a significant enough change in tower average color
+1. Simulate behaviour of led
 1. Simulate how the light looks realtime
 1. Build circuit to control one light
 1. Control real light
