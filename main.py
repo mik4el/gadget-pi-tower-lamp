@@ -58,7 +58,7 @@ class PITowerModel:
         self.allWindowsRGB = None
         self.averageWindowRGB = None
 
-    def downloadTowerImage():
+    def downloadTowerImage(self):
         os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
 
     def update(self):
@@ -87,10 +87,10 @@ class PITowerLampVisualization:
         #Draw GUI
         self.canvas = Canvas(self.root, width=1250, height=1000)
         self.canvas.pack()
-        self.root.after(0, self.update())
+        self.root.after(0, self.updateLoop())
         self.root.mainloop()
 
-    def update(self):
+    def updateLoop(self):
         while True:
             self.towerModel.update()
             self.redraw()

@@ -10,6 +10,7 @@ python -m unittest tests
 Python 2.7, PIL, curl
 
 ### Todo
+1. Move other functions to PITowerModel, update tests and write new tests
 1. Make filter to detect a significant enough change in tower average color
 1. Simulate behaviour of led
 1. Simulate how the light looks realtime
