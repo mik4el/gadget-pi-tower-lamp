@@ -10,7 +10,7 @@
     <file path="/tests.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390422218705" ignored="false" />
     <file path="/README.md" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390512009499" ignored="false" />
     <file path="/a.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390247826089" ignored="false" />
-    <file path="/main.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390660970614" ignored="false" />
+    <file path="/main.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390663291274" ignored="false" />
     <file path="/.gitignore" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390423524113" ignored="false" />
     <file path="/threading_test.py" changelist="0686b57f-de80-4b20-bb85-ba30400fae4b" time="1390642432762" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,11 +51,18 @@
       <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="19" selection-start="2051" selection-end="2051" vertical-scroll-proportion="0.3197279">
+            <state line="167" column="61" selection-start="5072" selection-end="5072" vertical-scroll-proportion="0.6258503">
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tower_test_02.jpg" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tower_test_02.jpg">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
@@ -444,11 +451,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tower_test_01.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="10" selection-start="10" selection-end="10" vertical-scroll-proportion="0.0">
@@ -463,9 +465,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tower_test_02.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tower_test_01.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="19" selection-start="2051" selection-end="2051" vertical-scroll-proportion="0.3197279">
+        <state line="167" column="61" selection-start="5072" selection-end="5072" vertical-scroll-proportion="0.6258503">
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
