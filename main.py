@@ -2,6 +2,8 @@ from Tkinter import *
 from PIL import Image, ImageTk
 import os
 import time
+import threading
+import Queue
 
 
 def RGBForPixel(x, y, pixelsInImage):
@@ -52,39 +54,49 @@ def hexFromRGB(RGB):
 
 
 class PITowerModel:
-    def __init__(self, imageName):
+    def __init__(self, allWindowsRGB, averageWindowRGB, image):
+        self.allWindowsRGB = allWindowsRGB
+        self.averageWindowRGB = averageWindowRGB
+        self.image = image
+        print "Tower model created!"
+
+
+class PITowerController(threading.Thread):
+    def __init__(self, imageName, controllerQueue):
+        threading.Thread.__init__(self)
         self.imageName = imageName
         self.image = None
-        self.allWindowsRGB = None
-        self.averageWindowRGB = None
+        self.controllerQueue = controllerQueue
 
     def downloadTowerImage(self):
         os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
 
-    def update(self):
-        #Download new image
-        self.downloadTowerImage()
+    def run(self):
+        while True:
+            #Download new image
+            self.downloadTowerImage()
 
-        #Load image
-        self.image = Image.open(self.imageName)
-        pixelsInImage = self.image.load()
+            #Load image and get data
+            self.image = Image.open(self.imageName)
+            pixelsInImage = self.image.load()
+            allWindowsRGB = RGBForAllWindows(pixelsInImage)
 
-        #Get RGB from image
-        self.allWindowsRGB = RGBForAllWindows(pixelsInImage)
-        self.averageWindowRGB = averageRGB(self.allWindowsRGB)
-
-        print "Data updated!"
+            #Create TowerModel and put in controllerQueue
+            towerModel = PITowerModel(allWindowsRGB, averageRGB(allWindowsRGB), self.image)
+            self.controllerQueue.put(towerModel)
+            print "New tower model in queue!"
+            time.sleep(5)
 
 
 class PITowerLampVisualization:
-    def __init__(self, towerModel):
-        self.towerModel = towerModel
+    def __init__(self, controllerQueue):
+        self.controllerQueue = controllerQueue
 
-        #Start Tkinter
+        # Start Tkinter
         self.root = Tk()
         self.root.title("PI Tower Lamp Visualization")
 
-        #Draw GUI
+        # Draw GUI
         self.canvas = Canvas(self.root, width=1250, height=1000)
         self.canvas.pack()
         self.root.after(0, self.updateLoop())
@@ -92,12 +104,15 @@ class PITowerLampVisualization:
 
     def updateLoop(self):
         while True:
-            self.towerModel.update()
-            self.redraw()
-            time.sleep(5)
+            # Only redraw if new item in controllerQueue
+            if not controllerQueue.empty():
+                self.towerModel = self.controllerQueue.get()
+                self.redraw()
+            time.sleep(1/100)
 
     def redraw(self):
-        if self.towerModel is None:
+        # Return if no towerModel
+        if not self.towerModel:
             return
 
         # Draw windows
@@ -114,6 +129,11 @@ class PITowerLampVisualization:
         self.canvas.update()
         print "Canvas redrawn!"
 
+#Create controller queue for communication between controller and view
+controllerQueue = Queue.Queue()
 
-towerModel = PITowerModel("tower_temp.jpg")
-visualization = PITowerLampVisualization(towerModel)
+controllerThread = PITowerController("tower_temp.jpg", controllerQueue)
+controllerThread.daemon = True
+controllerThread.start()
+
+visualization = PITowerLampVisualization(controllerQueue)
