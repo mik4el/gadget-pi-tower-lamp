@@ -53,6 +53,13 @@ def hexFromRGB(RGB):
     return '#%02x%02x%02x' % RGB
 
 
+class PILampModel:
+    def __init__(self, rgb, isOn):
+        self.rgb = rgb
+        self.isOn = isOn
+        print "Lamp model created!"
+
+
 class PITowerModel:
     def __init__(self, allWindowsRGB, averageWindowRGB, image):
         self.allWindowsRGB = allWindowsRGB
@@ -62,35 +69,46 @@ class PITowerModel:
 
 
 class PITowerController(threading.Thread):
-    def __init__(self, imageName, controllerQueue):
+    def __init__(self, imageName, towerControllerQueue, lampControllerQueue):
         threading.Thread.__init__(self)
         self.imageName = imageName
         self.image = None
-        self.controllerQueue = controllerQueue
+        self.towerControllerQueue = towerControllerQueue
+        self.lampControllerQueue = lampControllerQueue
 
     def downloadTowerImage(self):
         os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
 
     def run(self):
+        count = 0
+
         while True:
-            #Download new image
+            # Download new image
             self.downloadTowerImage()
 
-            #Load image and get data
+            # Load image and get data
             self.image = Image.open(self.imageName)
             pixelsInImage = self.image.load()
-            allWindowsRGB = RGBForAllWindows(pixelsInImage)
+            allWindowsColor = RGBForAllWindows(pixelsInImage)
+            averageColor = averageRGB(allWindowsColor)
 
-            #Create TowerModel and put in controllerQueue
-            towerModel = PITowerModel(allWindowsRGB, averageRGB(allWindowsRGB), self.image)
-            self.controllerQueue.put(towerModel)
-            print "New tower model in queue!"
-            time.sleep(5)
+            # Create PITowerModel and put in towerControllerQueue
+            towerModel = PITowerModel(allWindowsColor, averageColor, self.image)
+            self.towerControllerQueue.put(towerModel)
+
+            # Create PILampModel and put in lampControllerQueue
+            lampModel = PILampModel(averageColor, True)
+            self.lampControllerQueue.put(lampModel)
+
+            time.sleep(1)
 
 
 class PITowerLampVisualization:
-    def __init__(self, controllerQueue):
-        self.controllerQueue = controllerQueue
+    def __init__(self, towerControllerQueue, lampControllerQueue):
+        self.towerControllerQueue = towerControllerQueue
+        self.lampControllerQueue = lampControllerQueue
+        self.towerModel = None
+        self.lampModel = None
 
         # Start Tkinter
         self.root = Tk()
@@ -105,35 +123,45 @@ class PITowerLampVisualization:
     def updateLoop(self):
         while True:
             # Only redraw if new item in controllerQueue
-            if not controllerQueue.empty():
-                self.towerModel = self.controllerQueue.get()
-                self.redraw()
+            if not self.towerControllerQueue.empty():
+                self.towerModel = self.towerControllerQueue.get()
+            if not self.lampControllerQueue.empty():
+                self.lampModel = self.lampControllerQueue.get()
+            self.redraw()
             time.sleep(1/100)
 
     def redraw(self):
-        # Return if no towerModel
-        if not self.towerModel:
-            return
+        # Draw lampModel
+        if self.lampModel:
+            if self.lampModel.isOn:
+                self.canvas.create_rectangle(250, 650, 450, 750, fill=hexFromRGB(self.lampModel.rgb))
+            else:
+                self.canvas.create_rectangle(250, 650, 450, 750, fill="#000000")
 
-        # Draw windows
-        for i in range(10):
-            self.canvas.create_rectangle(0, 100*i, 200, 100*(1+i), fill=str(hexFromRGB(self.towerModel.allWindowsRGB[9-i])))
+        # Draw towerModel
+        if self.towerModel:
+            # Draw windows
+            for i in range(10):
+                self.canvas.create_rectangle(0, 100*i, 200, 100*(1+i), fill=str(hexFromRGB(self.towerModel.allWindowsRGB[9-i])))
 
-        # Draw average RGB block
-        self.canvas.create_rectangle(250, 450, 450, 550, fill=hexFromRGB(self.towerModel.averageWindowRGB))
+            # Draw average RGB block
+            self.canvas.create_rectangle(250, 450, 450, 550, fill=hexFromRGB(self.towerModel.averageWindowRGB))
 
-        # Draw tower visualization
-        tkImage = ImageTk.PhotoImage(self.towerModel.image)
-        self.canvas.create_image(900, 500, image=tkImage)
+            # Draw tower visualization
+            tkImage = ImageTk.PhotoImage(self.towerModel.image)
+            self.canvas.create_image(900, 500, image=tkImage)
 
-        self.canvas.update()
+            self.canvas.update()
         print "Canvas redrawn!"
 
-#Create controller queue for communication between controller and view
-controllerQueue = Queue.Queue()
+# Create controller queue for communication between controller and view
+towerControllerQueue = Queue.Queue()
+lampControllerQueue = Queue.Queue()
 
-controllerThread = PITowerController("tower_temp.jpg", controllerQueue)
+# Create and start controller
+controllerThread = PITowerController("tower_temp.jpg", towerControllerQueue, lampControllerQueue)
 controllerThread.daemon = True
 controllerThread.start()
 
-visualization = PITowerLampVisualization(controllerQueue)
+# Create and start visualization view
+visualization = PITowerLampVisualization(towerControllerQueue, lampControllerQueue)
