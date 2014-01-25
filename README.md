@@ -10,11 +10,13 @@ python -m unittest tests
 Python 2.7, PIL, curl
 
 ### Todo
-1. Move other functions to PITowerModel, update tests and write new tests
 1. Make filter to detect a significant enough change in tower average color
-1. Simulate behaviour of led
-1. Simulate how the light looks realtime
-1. Build circuit to control one light
-1. Control real light
+1. Write test for startLampAnimation, checkLampAnimationReady, updateLamp
+1. Install raspi
+1. Setup deployment to raspi with fabfile
+1. Build and control circuit to control one light on/off
+1. Build and control circuit to control one rgb light without PWM
+1. Build and control circuit to control one rgb light with PWM
+1. Make animation for ten window colors before animating to average color
 1. Build circuit to control lights with external power
 1. Finalize product and hook up in window
