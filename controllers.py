@@ -20,23 +20,26 @@ class PITowerController(threading.Thread):
         self.tickTowerUpdate = 0
         self.tickLampUpdate = 0
         self.updateHZ = 0.1
-        self.deltaR = 0.0
-        self.deltaG = 0.0
-        self.deltaB = 0.0
+        self.animationDeltaR = 0.0
+        self.animationDeltaG = 0.0
+        self.animationDeltaB = 0.0
         self.lampIsAnimating = False
+        self.animationSteps = 0
+        self.animationStartRGB = None
+        self.animationEndRGB = None
 
     def startLampAnimation(self):
-        print "Start lamp animation"
-        startRGB = self.currentLampModel.getRGB()
-        endRGB = self.currentTowerModel.averageWindowRGB
-        steps = 1/self.updateHZ
+        # Setup input variables
+        self.animationStartRGB = self.currentLampModel.getRGB()
+        self.animationEndRGB = self.currentTowerModel.averageWindowRGB
+        self.animationSteps = 1/self.updateHZ
 
-        #Calculate deltas for RGB channels
-        self.deltaR = float((endRGB[0]-startRGB[0]))/float(steps)
-        self.deltaG = float((endRGB[1]-startRGB[1]))/float(steps)
-        self.deltaB = float((endRGB[2]-startRGB[2]))/float(steps)
+        # Calculate deltas for RGB channels
+        self.animationDeltaR = float((self.animationEndRGB[0]-self.animationStartRGB[0]))/float(self.animationSteps)
+        self.animationDeltaG = float((self.animationEndRGB[1]-self.animationStartRGB[1]))/float(self.animationSteps)
+        self.animationDeltaB = float((self.animationEndRGB[2]-self.animationStartRGB[2]))/float(self.animationSteps)
 
-        #Start animation
+        # Start animation
         self.lampIsAnimating = True
 
     def checkLampAnimationReady(self):
@@ -44,28 +47,28 @@ class PITowerController(threading.Thread):
 
         #Check if self.currentLampModel matches with readyRGB, set deltas to zero if match
         diffR = readyRGB[0] - self.currentLampModel.r
-        if diffR >= 1 or diffR >= 1:
-            self.deltaR = 0.0
+        if abs(diffR) <= 1:
+            self.animationDeltaR = 0.0
             self.currentLampModel.r = readyRGB[0]
         diffG = readyRGB[1] - self.currentLampModel.g
-        if diffG >= 1 or diffG >= 1:
-            self.deltaG = 0.0
+        if abs(diffG) <= 1:
+            self.animationDeltaG = 0.0
             self.currentLampModel.g = readyRGB[1]
         diffB = readyRGB[2] - self.currentLampModel.b
-        if diffB >= 1 or diffB >= 1:
-            self.deltaB = 0.0
+        if abs(diffB) <= 1:
+            self.animationDeltaB = 0.0
             self.currentLampModel.b = readyRGB[2]
 
         #If all deltas == 0.0 then animation is over
-        if self.deltaR == 0.0 and self.deltaG == 0.0 and self.deltaB == 0.0:
+        if self.animationDeltaR == 0.0 and self.animationDeltaG == 0.0 and self.animationDeltaB == 0.0:
             self.lampIsAnimating = False
 
     def updateLamp(self):
         if self.lampIsAnimating:
             # Add deltas to lamp
-            self.currentLampModel.r += self.deltaR
-            self.currentLampModel.g += self.deltaG
-            self.currentLampModel.b += self.deltaB
+            self.currentLampModel.r += self.animationDeltaR
+            self.currentLampModel.g += self.animationDeltaG
+            self.currentLampModel.b += self.animationDeltaB
 
             # Check if ready
             self.checkLampAnimationReady()

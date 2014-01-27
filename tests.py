@@ -6,6 +6,8 @@ from controllers import PITowerController
 from views import PITowerLampVisualization
 from helpers import hexFromRGB
 
+TEST_IMAGE_NAME = "tower_test_01.jpg"
+
 
 class TestHelperMethods(unittest.TestCase):
     def setUp(self):
@@ -34,7 +36,6 @@ class TestPILampModel(unittest.TestCase):
 
 class TestPITowerModel(unittest.TestCase):
     def setUp(self):
-        TEST_IMAGE_NAME = "tower_test_01.jpg"
         self.image = Image.open(TEST_IMAGE_NAME)
         self.towerModel = PITowerModel(self.image)
         self.pixelsInImage = self.image.load()
@@ -117,13 +118,82 @@ class TestPITowerController(unittest.TestCase):
     def setUp(self):
         self.lampQueue = Queue.Queue()
         self.towerQueue = Queue.Queue()
-        self.imageName = "test"
+        self.imageName = TEST_IMAGE_NAME
         self.towerController = PITowerController(self.imageName, self.towerQueue, self.lampQueue)
+        self.image = Image.open(self.imageName)
+        self.towerController.currentTowerModel = PITowerModel(self.image)
+        self.towerController.currentLampModel = PILampModel(0, 0, 0, True)
+        self.towerController.updateHZ = 0.1
 
     def test_init_variables_set(self):
         self.assertEqual(self.lampQueue, self.towerController.lampControllerQueue)
         self.assertEqual(self.towerQueue, self.towerController.towerControllerQueue)
         self.assertEqual(self.imageName, self.towerController.imageName)
+
+    def test_startLampAnimation(self):
+        # Check that no input variables for animation is set
+        self.assertEqual(self.towerController.animationStartRGB, None)
+        self.assertEqual(self.towerController.animationEndRGB, None)
+        self.assertEqual(self.towerController.animationSteps, 0)
+        self.assertEqual(self.towerController.lampIsAnimating, False)
+
+        self.towerController.startLampAnimation()
+
+        # Check that real input variables for animation is set
+        self.assertEqual(self.towerController.animationStartRGB, (0, 0, 0))
+        self.assertEqual(self.towerController.animationEndRGB, (109, 99, 222))
+        self.assertEqual(self.towerController.animationSteps, 10.0)
+
+        #Check that output variables are correct
+        self.assertEqual(self.towerController.animationDeltaR, 10.9)
+        self.assertEqual(self.towerController.animationDeltaG, 9.9)
+        self.assertEqual(self.towerController.animationDeltaB, 22.2)
+        self.assertEqual(self.towerController.lampIsAnimating, True)
+
+    def test_updateLamp_and_checkLampAnimationReady(self):
+        # Check correct behaviour for lampIsAnimating = False and start variables
+        self.assertEqual(self.towerController.lampIsAnimating, False)
+        self.assertEqual(self.towerController.currentLampModel.r, 0)
+        self.assertEqual(self.towerController.currentLampModel.g, 0)
+        self.assertEqual(self.towerController.currentLampModel.b, 0)
+        self.assertEqual(self.lampQueue.empty(), True)
+
+        self.towerController.startLampAnimation()
+
+        # Check correct behaviour for lampIsAnimating = True
+        self.assertEqual(self.towerController.lampIsAnimating, True)
+
+        # Check that correct deltas are set
+        self.assertEqual(self.towerController.animationDeltaR, 10.9)
+        self.assertEqual(self.towerController.animationDeltaG, 9.9)
+        self.assertEqual(self.towerController.animationDeltaB, 22.2)
+
+        self.assertEqual(self.towerController.currentLampModel.r, 0)
+        self.assertEqual(self.towerController.currentLampModel.g, 0)
+        self.assertEqual(self.towerController.currentLampModel.b, 0)
+
+        self.towerController.updateLamp()
+
+        self.assertEqual(self.towerController.animationDeltaR, 10.9)
+        self.assertEqual(self.towerController.animationDeltaG, 9.9)
+        self.assertEqual(self.towerController.animationDeltaB, 22.2)
+
+        # Check that correct output is set after first run
+        self.assertEqual(self.towerController.currentLampModel.r, 10.9)
+        self.assertEqual(self.towerController.currentLampModel.g, 9.9)
+        self.assertEqual(self.towerController.currentLampModel.b, 22.2)
+        self.assertEqual(self.lampQueue.empty(), False)
+
+        # Complete animation cycle
+        for i in range(int(self.towerController.animationSteps-1)):
+            self.towerController.updateLamp()
+
+        # Check that correct output is set after animation cycle
+        self.assertEqual(self.towerController.currentLampModel.r, 109)
+        self.assertEqual(self.towerController.currentLampModel.g, 99)
+        self.assertEqual(self.towerController.currentLampModel.b, 222)
+        self.assertEqual(self.lampQueue.qsize(), self.towerController.animationSteps)
+        self.assertEqual(self.towerController.lampIsAnimating, False)
 
 
 class TestPITowerLampVisualization(unittest.TestCase):

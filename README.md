@@ -11,7 +11,6 @@ Python 2.7, PIL, curl
 
 ### Todo
 1. Make filter to detect a significant enough change in tower average color
-1. Write test for startLampAnimation, checkLampAnimationReady, updateLamp
 1. Install raspi
 1. Setup deployment to raspi with fabfile
 1. Build and control circuit to control one light on/off
