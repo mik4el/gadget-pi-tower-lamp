@@ -1,6 +1,7 @@
 import Queue
 from controllers import PITowerController
 from views import PITowerLampVisualization
+import time
 
 # Create controller queue for communication between controller and view
 towerControllerQueue = Queue.Queue()
@@ -12,5 +13,11 @@ controllerThread.daemon = True
 controllerThread.start()
 
 # Create and start visualization view
-visualization = PITowerLampVisualization(towerControllerQueue, lampControllerQueue)
-visualization.startGUI()
+#visualization = PITowerLampVisualization(towerControllerQueue, lampControllerQueue)
+#visualization.startGUI()
+
+while True:
+    if not lampControllerQueue.empty():
+        lamp = lampControllerQueue.get()
+        print lamp.getRGB()
+        time.sleep(0.1)

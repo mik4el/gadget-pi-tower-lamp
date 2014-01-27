@@ -1,5 +1,5 @@
 import unittest
-import Image
+from PIL import Image
 import Queue
 from models import PILampModel, PITowerModel
 from controllers import PITowerController

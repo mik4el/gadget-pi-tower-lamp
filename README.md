@@ -7,7 +7,7 @@ Run tests with this command:
 python -m unittest tests
 
 ### Dependencies
-Python 2.7, PIL, curl, fabric, fabtools, git-archive-all
+Python 2.7, pillow, curl, fabric, fabtools, git-archive-all
 
 ### Todo
 1. Setup deployment to raspi with fabfile
