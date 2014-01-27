@@ -10,7 +10,6 @@ python -m unittest tests
 Python 2.7, pillow, curl, fabric, fabtools, git-archive-all
 
 ### Todo
-1. Setup deployment to raspi with fabfile
 1. Build and control circuit to control one light on/off
 1. Build and control circuit to control one rgb light without PWM
 1. Build and control circuit to control one rgb light with PWM

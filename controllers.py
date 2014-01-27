@@ -27,7 +27,7 @@ class PITowerController(threading.Thread):
         self.animationSteps = 0
         self.animationStartRGB = None
         self.animationEndRGB = None
-        self.towerChangedTreshold = 0.05
+        self.towerChangedTreshold = 0.10
 
     def startLampAnimation(self):
         # Setup input variables
@@ -112,8 +112,8 @@ class PITowerController(threading.Thread):
         return isDifferent
 
     def downloadTowerImage(self):
-        #os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
-        self.simulateDownloadTowerImage()
+        os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
+        #self.simulateDownloadTowerImage()
 
     def simulateDownloadTowerImage(self):
         if self.imageName == "tower_test_01.jpg":

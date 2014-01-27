@@ -12,6 +12,8 @@ controllerThread = PITowerController("tower_temp.jpg", towerControllerQueue, lam
 controllerThread.daemon = True
 controllerThread.start()
 
-# Create and start visualization view
-visualization = PITowerLampVisualization(towerControllerQueue, lampControllerQueue)
-visualization.startGUI()
+while True:
+    if not lampControllerQueue.empty():
+        lamp = lampControllerQueue.get()
+        print lamp.getRGB()
+        time.sleep(0.1)
