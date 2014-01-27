@@ -7,11 +7,9 @@ Run tests with this command:
 python -m unittest tests
 
 ### Dependencies
-Python 2.7, PIL, curl
+Python 2.7, PIL, curl, fabric, fabtools, git-archive-all
 
 ### Todo
-1. Make filter to detect a significant enough change in tower average color
-1. Install raspi
 1. Setup deployment to raspi with fabfile
 1. Build and control circuit to control one light on/off
 1. Build and control circuit to control one rgb light without PWM
