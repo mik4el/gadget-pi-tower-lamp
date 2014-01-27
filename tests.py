@@ -132,8 +132,8 @@ class TestPITowerController(unittest.TestCase):
 
     def test_startLampAnimation(self):
         # Check that no input variables for animation is set
-        self.assertEqual(self.towerController.animationStartRGB, None)
-        self.assertEqual(self.towerController.animationEndRGB, None)
+        self.assertIsNone(self.towerController.animationStartRGB)
+        self.assertIsNone(self.towerController.animationEndRGB)
         self.assertEqual(self.towerController.animationSteps, 0)
         self.assertEqual(self.towerController.lampIsAnimating, False)
 
@@ -194,6 +194,24 @@ class TestPITowerController(unittest.TestCase):
         self.assertEqual(self.towerController.currentLampModel.b, 222)
         self.assertEqual(self.lampQueue.qsize(), self.towerController.animationSteps)
         self.assertEqual(self.towerController.lampIsAnimating, False)
+
+    def test_isTowerModelDifferent(self):
+        self.assertIsNotNone(self.towerController.currentTowerModel)
+
+        sameTower = PITowerModel(self.towerController.currentTowerModel.image)
+        self.assertEqual(self.towerController.isTowerModelDifferent(sameTower), False)
+
+        # Test different tower on differing on treshold
+        differentTower = PITowerModel(self.towerController.currentTowerModel.image)
+        diff = self.towerController.towerChangedTreshold+0.01
+        differentTower.averageWindowRGB = (float(differentTower.averageWindowRGB[0])*(1.0-diff), float(differentTower.averageWindowRGB[1])*(1.0-diff), float(differentTower.averageWindowRGB[2])*(1.0-diff))
+        self.assertEqual(self.towerController.isTowerModelDifferent(differentTower), True)
+
+        # Test different tower on differing below treshold
+        differentTower = PITowerModel(self.towerController.currentTowerModel.image)
+        diff = float(self.towerController.towerChangedTreshold)-0.01
+        differentTower.averageWindowRGB = (float(differentTower.averageWindowRGB[0])*(1-diff), float(differentTower.averageWindowRGB[1])*(1-diff), float(differentTower.averageWindowRGB[2])*(1-diff))
+        self.assertEqual(self.towerController.isTowerModelDifferent(differentTower), False)
 
 
 class TestPITowerLampVisualization(unittest.TestCase):

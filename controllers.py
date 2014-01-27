@@ -27,6 +27,7 @@ class PITowerController(threading.Thread):
         self.animationSteps = 0
         self.animationStartRGB = None
         self.animationEndRGB = None
+        self.towerChangedTreshold = 0.05
 
     def startLampAnimation(self):
         # Setup input variables
@@ -82,6 +83,34 @@ class PITowerController(threading.Thread):
         self.towerControllerQueue.put(self.currentTowerModel)
         self.startLampAnimation()
 
+    def isTowerModelDifferent(self, newTowerModel):
+        # Calculate diff for each rgb channel
+        diffR = self.currentTowerModel.averageWindowRGB[0] - newTowerModel.averageWindowRGB[0]
+        diffG = self.currentTowerModel.averageWindowRGB[1] - newTowerModel.averageWindowRGB[1]
+        diffB = self.currentTowerModel.averageWindowRGB[2] - newTowerModel.averageWindowRGB[2]
+
+        # Calculate percentage diff
+        changeR = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[0])
+        changeG = float(abs(diffG))/float(self.currentTowerModel.averageWindowRGB[1])
+        changeB = float(abs(diffB))/float(self.currentTowerModel.averageWindowRGB[2])
+
+        # Check if change over treshold
+        isDifferent = False
+        CHANGE = self.towerChangedTreshold
+        if changeR > CHANGE:
+            isDifferent = True
+        if changeG > CHANGE:
+            isDifferent = True
+        if changeB > CHANGE:
+            isDifferent = True
+
+        # Print to log
+        print "TowerModel difference:"
+        print "Current: %s, New: %s" %(self.currentTowerModel.averageWindowRGB, newTowerModel.averageWindowRGB)
+        print "diffR: %s changeR: %s, diffG: %s changeG: %s, diffB: %s changeB: %s. Treshold: %s isDifferent: %s" % (diffR, changeR, diffB, changeB, diffG, changeG, CHANGE, isDifferent)
+
+        return isDifferent
+
     def downloadTowerImage(self):
         #os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
         self.simulateDownloadTowerImage()
@@ -104,7 +133,7 @@ class PITowerController(threading.Thread):
 
         # Check if PITowerModel changed
         if self.currentTowerModel:
-            if towerModel.averageWindowRGB != self.currentTowerModel.averageWindowRGB:
+            if self.isTowerModelDifferent(towerModel):
                 self.towerModelChanged(towerModel)
         else:
             self.currentTowerModel = towerModel

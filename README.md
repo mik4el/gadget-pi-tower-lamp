@@ -16,6 +16,7 @@ Python 2.7, PIL, curl
 1. Build and control circuit to control one light on/off
 1. Build and control circuit to control one rgb light without PWM
 1. Build and control circuit to control one rgb light with PWM
+1. Make PITowerLampView that uses PITowerController to control rgb light with PWM
 1. Make animation for ten window colors before animating to average color
 1. Build circuit to control lights with external power
 1. Finalize product and hook up in window
