@@ -84,16 +84,27 @@ class PITowerController(threading.Thread):
         self.startLampAnimation()
 
     def isTowerModelDifferent(self, newTowerModel):
+        # This is kind of hard... Have to research how you calculate the size of a change from one RGB to another.
+
         # Calculate diff for each rgb channel
         diffR = self.currentTowerModel.averageWindowRGB[0] - newTowerModel.averageWindowRGB[0]
         diffG = self.currentTowerModel.averageWindowRGB[1] - newTowerModel.averageWindowRGB[1]
         diffB = self.currentTowerModel.averageWindowRGB[2] - newTowerModel.averageWindowRGB[2]
 
-        # Calculate percentage diff
-        changeR = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[0])
-        changeG = float(abs(diffG))/float(self.currentTowerModel.averageWindowRGB[1])
-        changeB = float(abs(diffB))/float(self.currentTowerModel.averageWindowRGB[2])
-
+        # Calculate percentage diff, check that no division by zero
+        if self.currentTowerModel.averageWindowRGB[0] != 0:
+            changeR = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[0])
+        else:
+            changeR = float(abs(diffR))/127.5  # half of 255
+        if self.currentTowerModel.averageWindowRGB[1] != 0:
+            changeG = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[1])
+        else:
+            changeG = float(abs(diffR))/127.5  # half of 255
+        if self.currentTowerModel.averageWindowRGB[2] != 0:
+            changeB = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[2])
+        else:
+            changeB = float(abs(diffR))/127.5  # half of 255
+        
         # Check if change over treshold
         isDifferent = False
         CHANGE = self.towerChangedTreshold

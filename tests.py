@@ -213,6 +213,10 @@ class TestPITowerController(unittest.TestCase):
         differentTower.averageWindowRGB = (float(differentTower.averageWindowRGB[0])*(1-diff), float(differentTower.averageWindowRGB[1])*(1-diff), float(differentTower.averageWindowRGB[2])*(1-diff))
         self.assertEqual(self.towerController.isTowerModelDifferent(differentTower), False)
 
+        # Test can handle division by zero
+        self.towerController.currentTowerModel.averageWindowRGB = (0, 0, 0)
+        self.assertEqual(self.towerController.isTowerModelDifferent(differentTower), True)
+
 
 class TestPITowerLampVisualization(unittest.TestCase):
     def setUp(self):
