@@ -104,7 +104,7 @@ class PITowerController(threading.Thread):
             changeB = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[2])
         else:
             changeB = float(abs(diffR))/127.5  # half of 255
-        
+
         # Check if change over treshold
         isDifferent = False
         CHANGE = self.towerChangedTreshold
