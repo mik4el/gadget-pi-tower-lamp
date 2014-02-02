@@ -7,7 +7,7 @@ Run tests with this command:
 python -m unittest tests
 
 ### Dependencies
-Python 2.7, pillow, curl, fabric, fabtools, git-archive-all
+Python 2.7, pillow, curl, fabric, fabtools, git-archive-all, rpi.gpio
 
 ### Todo
 1. Build and control circuit to control one light on/off

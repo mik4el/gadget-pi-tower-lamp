@@ -11,6 +11,28 @@ def main():
     parser.add_argument('--mode', help='Start PITowerLamp in visual, text or lamp mode')
     args = parser.parse_args()
 
+    if args.mode == "test_led":
+        # Blinks the led <numTimes> with <speed>
+
+        import RPi.GPIO as GPIO  # Lazy import of GPIO library
+
+        GPIO.setmode(GPIO.BOARD)  # Use board pin numbering
+        GPIO.setup(7, GPIO.OUT)  # Setup GPIO Pin 7 to OUT
+
+        numTimes = 10
+        speed = 0.5
+
+        for i in range(0, numTimes):
+            GPIO.output(7, True)
+            sleep(speed)
+            GPIO.output(7, False)
+            sleep(speed)
+        GPIO.cleanup()
+
+        return
+
+    # For other modes, a towerController wil be needed
+
     # Create controller queue for communication between controller and view
     towerControllerQueue = Queue.Queue()
     lampControllerQueue = Queue.Queue()
