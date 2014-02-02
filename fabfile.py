@@ -22,11 +22,20 @@ def provision():
     Should only run once when creating a new server,
     Provisions using require and then installs project.
     """
-    # update
+    # update and upgrade
     sudo('apt-get --yes --force-yes update', pty=True)
     sudo('apt-get --yes --force-yes upgrade', pty=True)
+
+    # install dependencies
     sudo('apt-get --yes --force-yes install python-dev', pty=True)
     sudo('apt-get --yes --force-yes install libjpeg-dev', pty=True)
+    sudo('apt-get --yes --force-yes install git', pty=True)
+
+    # install pi-blaster
+    sudo('git clone https://github.com/sarfata/pi-blaster.git')
+    with cd('pi-blaster'):
+        sudo('make')
+        sudo('make install')
 
     # transfer current release
     transfer_project()
