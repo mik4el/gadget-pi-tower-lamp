@@ -10,7 +10,6 @@ python -m unittest tests
 Python 2.7, pillow, curl, fabric, fabtools, git-archive-all, rpi.gpio, git, pi-blaster
 
 ### Todo
-1. Build and control circuit to control one rgb light without PWM
 1. Build and control circuit to control one rgb light with PWM
 1. Make PITowerLampView that uses PITowerController to control rgb light with PWM
 1. Make animation for ten window colors before animating to average color
