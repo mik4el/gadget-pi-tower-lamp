@@ -1,9 +1,9 @@
 import Queue
 from controllers import PITowerController
-from views import PITowerLampVisualization
+from views import PITowerLampVisualization, PITowerLampRGBLED
 import argparse
 from time import sleep
-import os
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -23,7 +23,12 @@ def main():
     if args.mode == "visual":
         # Create and start visualization view
         visualization = PITowerLampVisualization(towerControllerQueue, lampControllerQueue)
-        visualization.startGUI()
+        visualization.start()
+
+    if args.mode == "rgbled":
+        # Create and start visualization view
+        visualization = PITowerLampRGBLED(towerControllerQueue, lampControllerQueue)
+        visualization.start()
 
     if args.mode == "text":
         while True:

@@ -2,7 +2,7 @@ from helpers import hexFromRGB
 from Tkinter import *
 from PIL import ImageTk
 import time
-
+import os
 
 class PITowerLampVisualization:
     def __init__(self, towerControllerQueue, lampControllerQueue):
@@ -13,7 +13,7 @@ class PITowerLampVisualization:
         self.root = None
         self.canvas = None
 
-    def startGUI(self):
+    def start(self):
         # Start Tkinter
         self.root = Tk()
         self.root.title("PI Tower Lamp Visualization")
@@ -57,3 +57,42 @@ class PITowerLampVisualization:
 
             self.canvas.update()
         print "Canvas redrawn!"
+
+
+class PITowerLampRGBLED:
+    def __init__(self, towerControllerQueue, lampControllerQueue):
+        self.towerControllerQueue = towerControllerQueue
+        self.lampControllerQueue = lampControllerQueue
+        self.towerModel = None
+        self.lampModel = None
+        self.pins = [4, 17, 18]
+
+    def start(self):
+        while True:
+            try:
+                # Only redraw if new item in controllerQueue
+                if not self.lampControllerQueue.empty():
+                    self.lampModel = self.lampControllerQueue.get()
+                    self.redraw()
+                time.sleep(0.01)
+            except KeyboardInterrupt:
+                print "Exiting!"
+                for p in self.pins:
+                    os.system('echo "%d=0" > /dev/pi-blaster' % p)
+                    os.system('echo "release %d" > /dev/pi-blaster' % p)
+                exit()
+
+    def redraw(self):
+        # Draw lampModel
+        if self.lampModel:
+            if self.lampModel.isOn:
+                self.setLight(self.lampModel.getRGB())
+            else:
+                self.setLight((0, 0, 0))
+        print "Canvas redrawn!"
+
+    def setLight(self, rgb):
+        print "setting",  rgb
+        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[0], float(rgb[0]) / 255.0))
+        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[1], float(rgb[1]) / 255.0))
+        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[2], float(rgb[2]) / 255.0))

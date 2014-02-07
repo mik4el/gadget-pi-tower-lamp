@@ -87,23 +87,25 @@ class PITowerController(threading.Thread):
         # This is kind of hard... Have to research how you calculate the size of a change from one RGB to another.
 
         # Calculate diff for each rgb channel
-        diffR = self.currentTowerModel.averageWindowRGB[0] - newTowerModel.averageWindowRGB[0]
-        diffG = self.currentTowerModel.averageWindowRGB[1] - newTowerModel.averageWindowRGB[1]
-        diffB = self.currentTowerModel.averageWindowRGB[2] - newTowerModel.averageWindowRGB[2]
+        diffR = abs(self.currentTowerModel.averageWindowRGB[0] - newTowerModel.averageWindowRGB[0])
+        diffG = abs(self.currentTowerModel.averageWindowRGB[1] - newTowerModel.averageWindowRGB[1])
+        diffB = abs(self.currentTowerModel.averageWindowRGB[2] - newTowerModel.averageWindowRGB[2])
 
         # Calculate percentage diff, check that no division by zero
         if self.currentTowerModel.averageWindowRGB[0] != 0:
             changeR = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[0])
         else:
             changeR = float(abs(diffR))/127.5  # half of 255
+
         if self.currentTowerModel.averageWindowRGB[1] != 0:
-            changeG = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[1])
+            changeG = float(abs(diffG))/float(self.currentTowerModel.averageWindowRGB[1])
         else:
-            changeG = float(abs(diffR))/127.5  # half of 255
+            changeG = float(abs(diffG))/127.5  # half of 255
+
         if self.currentTowerModel.averageWindowRGB[2] != 0:
-            changeB = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[2])
+            changeB = float(abs(diffB))/float(self.currentTowerModel.averageWindowRGB[2])
         else:
-            changeB = float(abs(diffR))/127.5  # half of 255
+            changeB = float(abs(diffB))/127.5  # half of 255
 
         # Check if change over treshold
         isDifferent = False
@@ -118,13 +120,13 @@ class PITowerController(threading.Thread):
         # Print to log
         print "TowerModel difference:"
         print "Current: %s, New: %s" %(self.currentTowerModel.averageWindowRGB, newTowerModel.averageWindowRGB)
-        print "diffR: %s changeR: %s, diffG: %s changeG: %s, diffB: %s changeB: %s. Treshold: %s isDifferent: %s" % (diffR, changeR, diffB, changeB, diffG, changeG, CHANGE, isDifferent)
+        print "diffR: %s changeR: %s, diffG: %s changeG: %s, diffB: %s changeB: %s. Treshold: %s isDifferent: %s" % (diffR, changeR, diffG, changeG, diffB, changeB, CHANGE, isDifferent)
 
         return isDifferent
 
     def downloadTowerImage(self):
-        #os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
-        self.simulateDownloadTowerImage()
+        os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
+        #self.simulateDownloadTowerImage()
 
     def simulateDownloadTowerImage(self):
         if self.imageName == "tower_test_01.jpg":
