@@ -52,10 +52,12 @@ def transfer_project():
         sudo('rm -rf %s' % env.release_dir)
     sudo('mkdir %s' % env.release_dir)
     with cd(env.release_dir):
-        #makes an archive from git using git-archive-all https://github.com/Kentzo/git-archive-all
+        # makes an archive from git using git-archive-all https://github.com/Kentzo/git-archive-all
         local("git-archive-all new_release.tar.gz")
         put("new_release.tar.gz", env.source_dir, use_sudo=True)
         sudo("tar zxf %s/new_release.tar.gz" % env.source_dir)
+        # make sure that the dir is owned by pi user
+        sudo('chown pi:pi -R %' % env.release_dir)
         local("rm -f new_release.tar.gz")
 
 

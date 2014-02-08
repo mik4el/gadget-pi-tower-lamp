@@ -10,6 +10,9 @@ class PITowerController(threading.Thread):
     def __init__(self, imageName, towerControllerQueue, lampControllerQueue):
         threading.Thread.__init__(self)
         self.imageName = imageName
+        self.isSimulating = False
+        if self.imageName != "tower_temp.jpg":
+            self.isSimulating = True
         self.image = None
         self.towerControllerQueue = towerControllerQueue
         self.lampControllerQueue = lampControllerQueue
@@ -125,8 +128,10 @@ class PITowerController(threading.Thread):
         return isDifferent
 
     def downloadTowerImage(self):
-        os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
-        #self.simulateDownloadTowerImage()
+        if not self.isSimulating:
+            os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
+        else:
+            self.simulateDownloadTowerImage()
 
     def simulateDownloadTowerImage(self):
         if self.imageName == "tower_test_01.jpg":
