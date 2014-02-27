@@ -158,7 +158,7 @@ class PITowerController(threading.Thread):
             self.towerModelChanged(towerModel)
 
     def tick(self):
-        if self.ticks == self.tickTowerUpdate + 5/self.updateHZ or self.ticks == 0:
+        if self.ticks == self.tickTowerUpdate + 60/self.updateHZ or self.ticks == 0:
             self.tickTowerUpdate = self.ticks
             self.updateTower()
         self.updateLamp()  # lamp should update as often as possible
