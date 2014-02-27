@@ -18,6 +18,7 @@ def main():
     # Create and start controller on separate thread
     controllerThread = PITowerController("tower_temp.jpg", towerControllerQueue, lampControllerQueue)
     controllerThread.daemon = True
+    controllerThread.isSimulating = False
     controllerThread.start()
 
     if args.mode == "visual":

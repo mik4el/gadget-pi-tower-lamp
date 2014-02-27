@@ -1,7 +1,7 @@
 import os
 import threading
 import time
-from PIL import Image
+from PIL import Image, ImageFilter
 from models import PILampModel, PITowerModel
 
 
@@ -145,6 +145,9 @@ class PITowerController(threading.Thread):
 
         # Load image and get data
         self.image = Image.open(self.imageName)
+
+        # Mode filter image
+        self.image = self.image.filter(ImageFilter.ModeFilter(5))
 
         # Create PITowerModel and mark as changed
         towerModel = PITowerModel(self.image)
