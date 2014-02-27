@@ -1,7 +1,7 @@
 import os
 import threading
 import time
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageEnhance
 from models import PILampModel, PITowerModel
 
 
@@ -146,7 +146,13 @@ class PITowerController(threading.Thread):
         # Load image and get data
         self.image = Image.open(self.imageName)
 
-        # Mode filter image
+        # Gaussian blur image to smudge it
+        self.image = self.image.filter(ImageFilter.GaussianBlur(2))
+
+        # Exaggerate color
+        self.image = ImageEnhance.Color(self.image).enhance(10)
+
+        # Mode filter image to make it blocky
         self.image = self.image.filter(ImageFilter.ModeFilter(5))
 
         # Create PITowerModel and mark as changed
@@ -161,7 +167,7 @@ class PITowerController(threading.Thread):
             self.towerModelChanged(towerModel)
 
     def tick(self):
-        if self.ticks == self.tickTowerUpdate + 60/self.updateHZ or self.ticks == 0:
+        if self.ticks == self.tickTowerUpdate + 2/self.updateHZ or self.ticks == 0:
             self.tickTowerUpdate = self.ticks
             self.updateTower()
         self.updateLamp()  # lamp should update as often as possible
