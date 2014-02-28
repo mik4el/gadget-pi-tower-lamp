@@ -66,6 +66,9 @@ class PITowerLampRGBLED:
         self.towerModel = None
         self.lampModel = None
         self.pins = [4, 17, 18]
+        self.redScaling = 1.0
+        self.greenScaling = 0.2
+        self.blueScaling = 0.2
 
     def start(self):
         while True:
@@ -93,6 +96,6 @@ class PITowerLampRGBLED:
 
     def setLight(self, rgb):
         print "setting",  rgb
-        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[0], float(rgb[0]) / 255.0))
-        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[1], float(rgb[1]) / 255.0))
-        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[2], float(rgb[2]) / 255.0))
+        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[0], ((float(rgb[0]) / 255.0)*self.redScaling)))
+        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[1], ((float(rgb[1]) / 255.0)*self.greenScaling)))
+        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[2], ((float(rgb[2]) / 255.0)*self.blueScaling)))
