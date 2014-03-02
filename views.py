@@ -68,7 +68,7 @@ class PITowerLampRGBLED:
         self.pins = [4, 17, 18]
         self.redScaling = 1.0
         self.greenScaling = 0.2
-        self.blueScaling = 0.2
+        self.blueScaling = 0.1
 
     def start(self):
         while True:

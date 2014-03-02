@@ -128,6 +128,7 @@ class PITowerController(threading.Thread):
         return isDifferent
 
     def downloadTowerImage(self):
+        print "Downloading tower image"
         if not self.isSimulating:
             os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
         else:
@@ -167,7 +168,7 @@ class PITowerController(threading.Thread):
             self.towerModelChanged(towerModel)
 
     def tick(self):
-        if self.ticks == self.tickTowerUpdate + 2/self.updateHZ or self.ticks == 0:
+        if self.ticks == self.tickTowerUpdate + 60/self.updateHZ or self.ticks == 0:
             self.tickTowerUpdate = self.ticks
             self.updateTower()
         self.updateLamp()  # lamp should update as often as possible
