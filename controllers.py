@@ -3,7 +3,8 @@ import threading
 import time
 from PIL import Image, ImageFilter, ImageEnhance
 from models import PILampModel, PITowerModel
-
+from StringIO import StringIO
+import requests
 
 class PITowerController(threading.Thread):
 
@@ -130,22 +131,28 @@ class PITowerController(threading.Thread):
     def downloadTowerImage(self):
         print "Downloading tower image"
         if not self.isSimulating:
-            os.system("curl -o tower_temp.jpg http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450")
+            try:
+                request = requests.get('http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450')
+                image = Image.open(StringIO(request.content))
+            except Exception as e:
+                print e
+                return None
+            return image
         else:
-            self.simulateDownloadTowerImage()
+            return self.simulateDownloadTowerImage()
 
     def simulateDownloadTowerImage(self):
         if self.imageName == "tower_test_01.jpg":
             self.imageName = "tower_test_02.jpg"
         else:
             self.imageName = "tower_test_01.jpg"
+        return Image.open(self.imageName)
 
     def updateTower(self):
-        # Download new image
-        self.downloadTowerImage()
-
-        # Load image and get data
-        self.image = Image.open(self.imageName)
+        # Download image and get data
+        downloaded_image = self.downloadTowerImage()
+        if downloaded_image:
+            self.image = downloaded_image
 
         # Gaussian blur image to smudge it
         self.image = self.image.filter(ImageFilter.GaussianBlur(2))
@@ -168,7 +175,7 @@ class PITowerController(threading.Thread):
             self.towerModelChanged(towerModel)
 
     def tick(self):
-        if self.ticks == self.tickTowerUpdate + 60/self.updateHZ or self.ticks == 0:
+        if self.ticks == self.tickTowerUpdate + 30/self.updateHZ or self.ticks == 0:
             self.tickTowerUpdate = self.ticks
             self.updateTower()
         self.updateLamp()  # lamp should update as often as possible

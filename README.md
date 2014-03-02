@@ -6,12 +6,18 @@ When a color changes in the Tower the lamp goes through the ten new colors in se
 Run tests with this command:
 python -m unittest tests
 
+### Running it
+The program can be run in visual mode for developing and debugging and in rgbled mode to control rgb leds.
+
+####On pi in ~/pi_tower_lamp:
+./../env/bin/python main.py --mode rgbled > log.txt
+
+####For developing:
+python main.py --mode visual
+
 ### Dependencies
-Python 2.7, pillow, curl, fabric, fabtools, git-archive-all, rpi.gpio, git, pi-blaster
+Python 2.7, pillow, fabric, fabtools, git-archive-all, rpi.gpio, git, pi-blaster, requests
 
 ### Todo
-1. Build and control circuit to control one rgb light with PWM
-1. Make PITowerLampView that uses PITowerController to control rgb light with PWM
-1. Make animation for ten window colors before animating to average color
-1. Build circuit to control lights with external power
 1. Finalize product and hook up in window
+1. Write test suite to lock down behaviour for release
