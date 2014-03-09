@@ -63,7 +63,6 @@ class PITowerLampRGBLED:
     def __init__(self, towerControllerQueue, lampControllerQueue):
         self.towerControllerQueue = towerControllerQueue
         self.lampControllerQueue = lampControllerQueue
-        self.towerModel = None
         self.lampModel = None
         self.pins = [4, 17, 18]
         self.redScaling = 1.0
@@ -77,6 +76,10 @@ class PITowerLampRGBLED:
                 if not self.lampControllerQueue.empty():
                     self.lampModel = self.lampControllerQueue.get()
                     self.redraw()
+                    if not self.towerControllerQueue.empty():
+                        # avoid memory leak
+                        towerModel = self.towerControllerQueue.get()
+                        del towerModel
                 time.sleep(0.01)
             except KeyboardInterrupt:
                 print "Exiting!"

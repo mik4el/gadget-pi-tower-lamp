@@ -18,7 +18,6 @@ class PITowerController(threading.Thread):
         self.towerControllerQueue = towerControllerQueue
         self.lampControllerQueue = lampControllerQueue
         self.currentTowerModel = None
-        self.oldTowerModel = None
         self.currentLampModel = PILampModel(255, 255, 255, True)
         self.ticks = 0
         self.tickTowerUpdate = 0
@@ -82,7 +81,6 @@ class PITowerController(threading.Thread):
             self.lampControllerQueue.put(self.currentLampModel)
 
     def towerModelChanged(self, newTowerModel):
-        self.oldTowerModel = self.currentTowerModel
         self.currentTowerModel = newTowerModel
         self.towerControllerQueue.put(self.currentTowerModel)
         self.startLampAnimation()
@@ -166,9 +164,14 @@ class PITowerController(threading.Thread):
         # Create PITowerModel and mark as changed
         towerModel = PITowerModel(self.image)
 
+        # Avoid memory leak
+        del self.image
+
         # Check if PITowerModel changed
         if self.currentTowerModel:
             if self.isTowerModelDifferent(towerModel):
+                # Avoid memory leak
+                del self.currentTowerModel
                 self.towerModelChanged(towerModel)
         else:
             self.currentTowerModel = towerModel

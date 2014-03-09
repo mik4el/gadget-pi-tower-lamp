@@ -20,4 +20,5 @@ Python 2.7, pillow, fabric, fabtools, git-archive-all, rpi.gpio, git, pi-blaster
 
 ### Todo
 1. Finalize product and hook up in window
+1. Diagnose and fix memory leak that crashes the program after 5-6 hours
 1. Write test suite to lock down behaviour for release
