@@ -5,6 +5,7 @@ from models import PILampModel, PITowerModel
 from controllers import PITowerController
 from views import PITowerLampVisualization, PITowerLampRGBLED
 from helpers import hexFromRGB
+from mock import Mock
 
 TEST_IMAGE_NAME = "tower_test_01.jpg"
 
@@ -227,6 +228,10 @@ class TestPITowerLampVisualization(unittest.TestCase):
     def test_init_variables_set(self):
         self.assertEqual(self.lampQueue, self.lampVisualization.lampControllerQueue)
         self.assertEqual(self.towerQueue, self.lampVisualization.towerControllerQueue)
+        self.assertEqual(self.lampVisualization.towerModel, None)
+        self.assertEqual(self.lampVisualization.lampModel, None)
+        self.assertEqual(self.lampVisualization.root, None)
+        self.assertEqual(self.lampVisualization.canvas, None)
 
 
 class TestPITowerLampRGBLED(unittest.TestCase):
@@ -238,3 +243,37 @@ class TestPITowerLampRGBLED(unittest.TestCase):
     def test_init_variables_set(self):
         self.assertEqual(self.lampQueue, self.RGBLEDView.lampControllerQueue)
         self.assertEqual(self.towerQueue, self.RGBLEDView.towerControllerQueue)
+        self.assertEqual(self.RGBLEDView.lampModel, None)
+        self.assertEqual(self.RGBLEDView.pins, [4, 17, 18])
+        self.assertEqual(self.RGBLEDView.redScaling, 1.0)
+        self.assertEqual(self.RGBLEDView.greenScaling, 0.2)
+        self.assertEqual(self.RGBLEDView.blueScaling, 0.1)
+
+    def test_pi_blasterCommandForInput(self):
+        # In direct testing of setLight
+        commandString = self.RGBLEDView.pi_blasterCommandForInput(self.RGBLEDView.pins[0], 1)
+        self.assertEqual(commandString, 'echo "4=1.00" > /dev/pi-blaster')
+        commandString = self.RGBLEDView.pi_blasterCommandForInput(self.RGBLEDView.pins[1], 1)
+        self.assertEqual(commandString, 'echo "17=1.00" > /dev/pi-blaster')
+        commandString = self.RGBLEDView.pi_blasterCommandForInput(self.RGBLEDView.pins[2], 1)
+        self.assertEqual(commandString, 'echo "18=1.00" > /dev/pi-blaster')
+        commandString = self.RGBLEDView.pi_blasterCommandForInput(self.RGBLEDView.pins[1], 0.5)
+        self.assertEqual(commandString, 'echo "17=0.50" > /dev/pi-blaster')
+        commandString = self.RGBLEDView.pi_blasterCommandForInput(self.RGBLEDView.pins[1], 0.12345)
+        self.assertEqual(commandString, 'echo "17=0.12" > /dev/pi-blaster')
+
+    def test_redraw(self):
+        # Create mocked setLight and test
+        self.RGBLEDView.setLight = Mock(return_value=True)
+        self.RGBLEDView.setLight((0, 0, 0))
+        self.RGBLEDView.setLight.assert_called_with((0, 0, 0))
+
+        # Test with turned on lamp
+        self.RGBLEDView.lampModel = PILampModel(1, 2, 3, True)
+        self.RGBLEDView.redraw()
+        self.RGBLEDView.setLight.assert_called_with((1, 2, 3))
+
+        # Test with turned off lamp
+        self.RGBLEDView.lampModel = PILampModel(1, 2, 3, False)
+        self.RGBLEDView.redraw()
+        self.RGBLEDView.setLight.assert_called_with((0, 0, 0))

@@ -4,6 +4,7 @@ from PIL import ImageTk
 import time
 import os
 
+
 class PITowerLampVisualization:
     def __init__(self, towerControllerQueue, lampControllerQueue):
         self.towerControllerQueue = towerControllerQueue
@@ -99,6 +100,9 @@ class PITowerLampRGBLED:
 
     def setLight(self, rgb):
         print "setting",  rgb
-        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[0], ((float(rgb[0]) / 255.0)*self.redScaling)))
-        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[1], ((float(rgb[1]) / 255.0)*self.greenScaling)))
-        os.system('echo "%d=%.2f" > /dev/pi-blaster' % (self.pins[2], ((float(rgb[2]) / 255.0)*self.blueScaling)))
+        os.system(self.pi_blasterCommandForInput(self.pins[0], ((float(rgb[0]) / 255.0)*self.redScaling)))
+        os.system(self.pi_blasterCommandForInput(self.pins[1], ((float(rgb[1]) / 255.0)*self.greenScaling)))
+        os.system(self.pi_blasterCommandForInput(self.pins[2], ((float(rgb[2]) / 255.0)*self.blueScaling)))
+
+    def pi_blasterCommandForInput(self, pin, value):
+        return 'echo "%d=%.2f" > /dev/pi-blaster' % (pin, value)
