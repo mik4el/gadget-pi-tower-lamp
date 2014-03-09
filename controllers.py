@@ -1,4 +1,3 @@
-import os
 import threading
 import time
 from PIL import Image, ImageFilter, ImageEnhance

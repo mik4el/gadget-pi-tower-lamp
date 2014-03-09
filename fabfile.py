@@ -1,10 +1,6 @@
 from fabric.api import *
 from fabric.contrib.files import exists
-from fabric.operations import *
-import time
-from contextlib import contextmanager
 from fabtools import require
-import fabtools
 from fabtools.python import virtualenv
 
 env.roledefs = {

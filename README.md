@@ -1,6 +1,6 @@
 # README for PI Tower Lamp
-Controlling a circuit of rgb leds to match colors in windows of the Telefonplan Tower from a webcam image using a RaspberryPI and Python. Also runs a simulated light led in commandline for testing purpose.
-When a color changes in the Tower the lamp goes through the ten new colors in sequence and ends with average color.
+Controlling a circuit of rgb leds in a lamp to show average color of in windows of the Telefonplan Tower from a webcam image using a RaspberryPI and Python. Also runs a simulation of lamp color, input colors and enhanced webcam image for testing purposes.
+When a significant change of the average color happens the lamp animates to the new color.
 
 ### Tests
 Run tests with this command:
@@ -17,6 +17,3 @@ python main.py --mode visual
 
 ### Dependencies
 Python 2.7, pillow, fabric, fabtools, git-archive-all, rpi.gpio, git, pi-blaster, requests
-
-### Todo
-1. Write test suite to lock down behaviour for release
