@@ -3,7 +3,7 @@ from PIL import Image
 import Queue
 from models import PILampModel, PITowerModel
 from controllers import PITowerController
-from views import PITowerLampVisualization
+from views import PITowerLampVisualization, PITowerLampRGBLED
 from helpers import hexFromRGB
 
 TEST_IMAGE_NAME = "tower_test_01.jpg"
@@ -227,3 +227,14 @@ class TestPITowerLampVisualization(unittest.TestCase):
     def test_init_variables_set(self):
         self.assertEqual(self.lampQueue, self.lampVisualization.lampControllerQueue)
         self.assertEqual(self.towerQueue, self.lampVisualization.towerControllerQueue)
+
+
+class TestPITowerLampRGBLED(unittest.TestCase):
+    def setUp(self):
+        self.lampQueue = Queue.Queue()
+        self.towerQueue = Queue.Queue()
+        self.RGBLEDView = PITowerLampRGBLED(self.towerQueue, self.lampQueue)
+
+    def test_init_variables_set(self):
+        self.assertEqual(self.lampQueue, self.RGBLEDView.lampControllerQueue)
+        self.assertEqual(self.towerQueue, self.RGBLEDView.towerControllerQueue)
