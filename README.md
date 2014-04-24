@@ -3,6 +3,7 @@ Controlling a circuit of rgb leds in a lamp to show average color of the windows
 
 ### Tests
 Run tests with this command:
+
 `python -m unittest tests`
 
 ### Running it
@@ -26,6 +27,7 @@ http://alltheware.wordpress.com/2012/12/11/easiest-way-sd-card-setup/
 Insert the card, plugin an ethernet cable. Power on the raspi and wait a few seconds.
 
 Find the raspi in your network. Go to terminal and input:
+
 `nmap 192.168.1.1/24`
 
 Nmap can take a few minutes. Download from http://nmap.org/download.html#macosx
@@ -33,10 +35,13 @@ Nmap can take a few minutes. Download from http://nmap.org/download.html#macosx
 There are probably many devices in your network. If one device has port 22 open only it's probably the raspi.
 
 Go to terminal and input with the ip you found:
+
 `ssh pi@192.168.1.2`
+
 password: raspberry
 
 Update and config the raspi:
+
 `sudo apt-get update`
 
 `sudo apt-get upgrade`
@@ -51,6 +56,7 @@ https://www.modmypi.com/blog/how-to-set-up-the-ralink-rt5370-wifi-dongle-on-rasp
 Then for convenience, setup key based auth:
 
 On the raspi:
+
 `cd ~`
 
 `mkdir .ssh`
@@ -59,10 +65,13 @@ On the raspi:
 
 
 On your mac:
+
 `scp ~/.ssh/id_rsa.pub pi@192.168.1.8:~/.ssh/authorized_keys`
 
 On your raspi again:
+
 `chmod 600 .ssh/authorized_keys`
 
 Clone this repo to your mac and in that directory, run fabfile to provision raspi:
+
 `fab -R pi provision`
