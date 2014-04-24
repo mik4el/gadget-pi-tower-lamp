@@ -4,16 +4,16 @@ When a significant change of the average color happens the lamp animates to the 
 
 ### Tests
 Run tests with this command:
-python -m unittest tests
+`python -m unittest tests`
 
 ### Running it
 The program can be run in visual mode for developing and debugging and in rgbled mode to control rgb leds.
 
 ####On pi in ~/pi_tower_lamp:
-./../env/bin/python main.py --mode rgbled > log.txt
+`./../env/bin/python main.py --mode rgbled > log.txt`
 
 ####For developing:
-python main.py --mode visual
+`python main.py --mode visual`
 
 ### Dependencies
 Python 2.7, pillow, fabric, fabtools, git-archive-all, rpi.gpio, git, pi-blaster, requests
@@ -27,20 +27,20 @@ http://alltheware.wordpress.com/2012/12/11/easiest-way-sd-card-setup/
 Insert the card, plugin an ethernet cable. Power on the raspi and wait a few seconds.
 
 Find the raspi in your network. Go to terminal and input:
-`nmap 192.168.1.1/24 
+`nmap 192.168.1.1/24`
 
 Nmap can take a few minutes. Download from http://nmap.org/download.html#macosx
 
 There are probably many devices in your network. If one device has port 22 open only it's probably the raspi.
 
 Go to terminal and input with the ip you found:
-`ssh pi@192.168.1.2
+`ssh pi@192.168.1.2`
 password: raspberry
 
 Update and config the raspi:
-`sudo apt-get update
-`sudo apt-get upgrade
-`sudo raspi-config
+`sudo apt-get update`
+`sudo apt-get upgrade`
+`sudo raspi-config`
 
 I choose to fill the SD card.
 
@@ -50,16 +50,15 @@ https://www.modmypi.com/blog/how-to-set-up-the-ralink-rt5370-wifi-dongle-on-rasp
 Then for convenience, setup key based auth:
 
 On the raspi:
-`cd ~
-`mkdir .ssh
-`chmod 700 .ssh
+`cd ~`
+`mkdir .ssh`
+`chmod 700 .ssh`
 
 On your mac:
-`scp ~/.ssh/id_rsa.pub pi@192.168.1.8:~/.ssh/authorized_keys 
+`scp ~/.ssh/id_rsa.pub pi@192.168.1.8:~/.ssh/authorized_keys`
 
 On your raspi again:
-`chmod 600 .ssh/authorized_keys
+`chmod 600 .ssh/authorized_keys`
 
-On your mac, run fabfile to provision raspi:
-cd to pi_tower_lamp, then
-`fab -R pi provision
+Clone this repo to your mac and in that directory, run fabfile to provision raspi:
+`fab -R pi provision`
