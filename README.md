@@ -1,6 +1,5 @@
 # README for PI Tower Lamp
-Controlling a circuit of rgb leds in a lamp to show average color of in windows of the Telefonplan Tower from a webcam image using a RaspberryPI and Python. Also runs a simulation of lamp color, input colors and enhanced webcam image for testing purposes.
-When a significant change of the average color happens the lamp animates to the new color.
+Controlling a circuit of rgb leds in a lamp to show average color of the windows in the Telefonplan Tower from a webcam image using a RaspberryPI and Python. When a significant change of the average color happens the lamp animates to the new color. Also runs a simulation of lamp color, input colors and enhanced webcam image for testing purposes.
 
 ### Tests
 Run tests with this command:
@@ -39,7 +38,9 @@ password: raspberry
 
 Update and config the raspi:
 `sudo apt-get update`
+
 `sudo apt-get upgrade`
+
 `sudo raspi-config`
 
 I choose to fill the SD card.
@@ -51,8 +52,11 @@ Then for convenience, setup key based auth:
 
 On the raspi:
 `cd ~`
+
 `mkdir .ssh`
+
 `chmod 700 .ssh`
+
 
 On your mac:
 `scp ~/.ssh/id_rsa.pub pi@192.168.1.8:~/.ssh/authorized_keys`
