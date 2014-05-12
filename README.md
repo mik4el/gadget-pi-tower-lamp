@@ -16,4 +16,4 @@ The program can be run in visual mode for developing and debugging and in rgbled
 python main.py --mode visual
 
 ### Dependencies
-Python 2.7, pillow, fabric, fabtools, git-archive-all, rpi.gpio, git, pi-blaster, requests
+Python 2.7, pillow, fabric, fabtools, git-archive-all, rpi.gpio, git, pi-blaster, requests, supervisor

@@ -1,3 +1,4 @@
 pillow
 rpi.gpio
 requests
+supervisor

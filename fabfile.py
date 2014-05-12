@@ -43,17 +43,17 @@ def provision():
 def transfer_project():
     if not exists(env.source_dir):
         # create src directory
-        sudo('mkdir %s' % env.source_dir)
+        sudo("mkdir %s" % env.source_dir)
     if exists(env.release_dir):
-        sudo('rm -rf %s' % env.release_dir)
-    sudo('mkdir %s' % env.release_dir)
+        sudo("rm -rf %s" % env.release_dir)
+    sudo("mkdir %s" % env.release_dir)
     with cd(env.release_dir):
         # makes an archive from git using git-archive-all https://github.com/Kentzo/git-archive-all
         local("git-archive-all new_release.tar.gz")
         put("new_release.tar.gz", env.source_dir, use_sudo=True)
         sudo("tar zxf %s/new_release.tar.gz" % env.source_dir)
         # make sure that the dir is owned by pi user
-        sudo('chown pi:pi -R %s' % env.release_dir)
+        sudo("chown pi:pi -R %s" % env.release_dir)
         local("rm -f new_release.tar.gz")
 
 
@@ -65,7 +65,7 @@ def install_project():
         create_virtualenv()
     with cd(env.release_dir):
         with virtualenv(env.virtualenv):
-            sudo('pip install -r requirements.txt', pty=True)
+            sudo("pip install -r requirements.txt", pty=True)
 
 
 def deploy():
@@ -84,3 +84,18 @@ def create_virtualenv():
     Creates virtualenv for project in env.virtualenv dir.
     """
     require.python.virtualenv(env.virtualenv, use_sudo=True)
+
+
+def start():
+    if not exists("/home/pi/logs"):
+        sudo("mkdir /home/pi/logs")
+    with cd(env.release_dir):
+        with virtualenv(env.virtualenv):
+            sudo("supervisord -c %s/supervisord.conf" % env.release_dir)
+            sudo("supervisorctl restart pi_tower_lamp")
+
+
+def restart():
+    with cd(env.release_dir):
+        with virtualenv(env.virtualenv):
+            sudo("supervisorctl restart pi_tower_lamp")
