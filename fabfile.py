@@ -86,16 +86,19 @@ def create_virtualenv():
     require.python.virtualenv(env.virtualenv, use_sudo=True)
 
 
-def start():
+def setup_supervisord():
     if not exists("/home/pi/logs"):
         sudo("mkdir /home/pi/logs")
+    sudo("cp %s/supervisord /etc/init.d/supervisord" % env.release_dir)
+    sudo("chmod +x /etc/init.d/supervisord")
+    sudo("update-rc.d supervisord defaults")
     with cd(env.release_dir):
         with virtualenv(env.virtualenv):
-            sudo("supervisord -c %s/supervisord.conf" % env.release_dir)
+            sudo("/etc/init.d/supervisord restart")
             sudo("supervisorctl restart pi_tower_lamp")
 
 
 def restart():
     with cd(env.release_dir):
         with virtualenv(env.virtualenv):
-            sudo("supervisorctl restart pi_tower_lamp")
+            sudo("supervisorctl start pi_tower_lamp")
