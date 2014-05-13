@@ -101,4 +101,4 @@ def setup_supervisord():
 def restart():
     with cd(env.release_dir):
         with virtualenv(env.virtualenv):
-            sudo("supervisorctl start pi_tower_lamp")
+            sudo("supervisorctl restart pi_tower_lamp")
