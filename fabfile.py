@@ -4,7 +4,7 @@ from fabtools import require
 from fabtools.python import virtualenv
 
 env.roledefs = {
-    'pi': ['pi@192.168.1.8'],  # requires key based auth on server
+    'pi': ['pi@10.0.0.9'],  # requires key based auth on server
 }
 
 env.project_name = 'pi_tower_lamp'

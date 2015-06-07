@@ -151,14 +151,17 @@ class PITowerController(threading.Thread):
         if downloaded_image is not None:
             self.image = downloaded_image
 
-        # Gaussian blur image to smudge it
-        self.image = self.image.filter(ImageFilter.GaussianBlur(2))
+        try:
+            # Gaussian blur image to smudge it
+            self.image = self.image.filter(ImageFilter.GaussianBlur(2))
 
-        # Exaggerate color
-        self.image = ImageEnhance.Color(self.image).enhance(10)
+            # Exaggerate color
+            self.image = ImageEnhance.Color(self.image).enhance(10)
 
-        # Mode filter image to make it blocky
-        self.image = self.image.filter(ImageFilter.ModeFilter(5))
+            # Mode filter image to make it blocky
+            self.image = self.image.filter(ImageFilter.ModeFilter(5))
+        except:
+            pass
 
         # Create PITowerModel and mark as changed
         towerModel = PITowerModel(self.image)
