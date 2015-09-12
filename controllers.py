@@ -4,6 +4,8 @@ from PIL import Image, ImageFilter, ImageEnhance
 from models import PILampModel, PITowerModel
 from StringIO import StringIO
 import requests
+from datetime import datetime
+
 
 class PITowerController(threading.Thread):
 
@@ -133,6 +135,7 @@ class PITowerController(threading.Thread):
                 image = Image.open(StringIO(request.content))
             except Exception as e:
                 print e
+                print "Error downloading tower image"
                 return None
             return image
         else:
@@ -187,8 +190,8 @@ class PITowerController(threading.Thread):
             self.updateTower()
         self.updateLamp()  # lamp should update as often as possible
         self.ticks += 1
+        print "%s %s" % (self.ticks, str(datetime.now()))
         time.sleep(self.updateHZ)
-        print self.ticks
 
     def run(self):
         while True:
