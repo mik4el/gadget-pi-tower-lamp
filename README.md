@@ -28,7 +28,7 @@ Insert the card, plugin an ethernet cable. Power on the raspi and wait a few sec
 
 Find the raspi in your network. Go to terminal and input:
 
-`nmap 192.168.1.1/24`
+`nmap 10.0.0.1/24`
 
 Nmap can take a few minutes. Download from http://nmap.org/download.html#macosx
 
@@ -36,7 +36,7 @@ There are probably many devices in your network. If one device has port 22 open 
 
 Go to terminal and input with the ip you found:
 
-`ssh pi@192.168.1.2`
+`ssh pi@10.0.0.9`
 
 password: raspberry
 
@@ -66,7 +66,7 @@ On the raspi:
 
 On your mac:
 
-`scp ~/.ssh/id_rsa.pub pi@192.168.1.8:~/.ssh/authorized_keys`
+`scp ~/.ssh/id_rsa.pub pi@10.0.0.9:~/.ssh/authorized_keys`
 
 On your raspi again:
 
