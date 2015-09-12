@@ -150,6 +150,8 @@ class PITowerController(threading.Thread):
         downloaded_image = self.downloadTowerImage()
         if downloaded_image is not None:
             self.image = downloaded_image
+        else:
+            return
 
         try:
             # Gaussian blur image to smudge it
