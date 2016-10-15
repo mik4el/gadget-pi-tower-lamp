@@ -1,9 +1,10 @@
 import queue
 import argparse
-from controllers import PITowerController
 from time import sleep
 
-from views import PITowerLampVisualization, PITowerLampRGBLED
+from controllers import PITowerController
+from daemon import PITowerLampRGBLED
+from visualization import PITowerLampVisualization
 
 
 def main():
