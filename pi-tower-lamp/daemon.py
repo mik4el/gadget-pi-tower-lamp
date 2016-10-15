@@ -1,6 +1,7 @@
 import time
 import RPi.GPIO as GPIO
 import signal
+import sys
 
 
 class PITowerLampRGBLED:
@@ -27,11 +28,14 @@ class PITowerLampRGBLED:
         self.greenScaling = 0.2
         self.blueScaling = 0.1
 
-        # Handle docker sigterm signal
-        signal.signal(signal.SIGINT, self.exit_gracefully)
-        signal.signal(signal.SIGTERM, self.exit_gracefully)
+        if sys.argv[1] == "handle_signal":
+            signal.signal(signal.SIGTERM, self.sigterm_handler)
 
-    def exit_gracefully(self, signum, frame):
+    def sigterm_handler(self, _signo, _stack_frame):
+        # Raises SystemExit(0):
+        sys.exit(0)
+
+    def cleanup(self):
         print("Exiting PITowerLampRGBLED")
         self.red.stop()
         self.green.stop()
@@ -40,8 +44,8 @@ class PITowerLampRGBLED:
         exit()
 
     def start(self):
-        while True:
-            try:
+        try:
+            while True:
                 # Only redraw if new item in controllerQueue
                 if not self.lampControllerQueue.empty():
                     self.lampModel = self.lampControllerQueue.get()
@@ -51,8 +55,8 @@ class PITowerLampRGBLED:
                         tower_model = self.towerControllerQueue.get()
                         del tower_model
                 time.sleep(0.01)
-            except KeyboardInterrupt:
-                self.exit_gracefully(self, None, None)
+        finally:
+            self.cleanup(self)
 
     def redraw(self):
         # Draw lampModel
