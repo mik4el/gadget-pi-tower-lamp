@@ -1,6 +1,5 @@
 import os
 import time
-from tkinter import *
 from helpers import hexFromRGB
 
 
@@ -15,6 +14,9 @@ class PITowerLampVisualization:
 
     def start(self):
         # Start Tkinter
+        from tkinter import *
+        from PIL import ImageTk  # Avoid tkinter on raspi in daemon mode so only import when you run visualization
+
         self.root = Tk()
         self.root.title("PI Tower Lamp Visualization")
 
@@ -53,8 +55,6 @@ class PITowerLampVisualization:
             self.canvas.create_rectangle(250, 350, 450, 450, fill=hexFromRGB(self.towerModel.averageWindowRGB))
 
             # Draw tower visualization
-            from PIL import ImageTk  # Avoid ImageTK on raspi in daemon mode so only import when you run visualization
-
             tkImage = ImageTk.PhotoImage(self.towerModel.image)
             self.canvas.create_image(900, 500, image=tkImage)
 
