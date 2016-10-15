@@ -4,6 +4,6 @@ pi-tower-lamp:
   privileged: true
   command: python main.py --mode rgbled
   volumes:
-    - ./pi-tower-lamp:/
+    - ./pi-tower-lamp:/usr/src/app/
   environment:
     - PYTHONUNBUFFERED=0
