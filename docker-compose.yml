@@ -3,5 +3,7 @@ pi-tower-lamp:
   build: ./pi-tower-lamp
   privileged: true
   command: python main.py --mode rgbled
+  volumes:
+    - ./pi-tower-lamp:/
   environment:
     - PYTHONUNBUFFERED=0
