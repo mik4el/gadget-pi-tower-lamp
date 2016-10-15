@@ -6,7 +6,8 @@ from helpers import hexFromRGB
 from mock import Mock
 
 from models import PILampModel, PITowerModel
-from views import PITowerLampVisualization, PITowerLampRGBLED
+from visualization import PITowerLampVisualization
+from daemon import PITowerLampRGBLED
 
 TEST_IMAGE_NAME = "tower_test_01.jpg"
 

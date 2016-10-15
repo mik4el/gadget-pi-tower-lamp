@@ -29,8 +29,8 @@ def main():
     if args.mode == "rgbled":
         # Create and start visualization view
         from daemon import PITowerLampRGBLED
-        visualization = PITowerLampRGBLED(towerControllerQueue, lampControllerQueue)
-        visualization.start()
+        daemon = PITowerLampRGBLED(towerControllerQueue, lampControllerQueue)
+        daemon.start()
 
     if args.mode == "text":
         while True:
