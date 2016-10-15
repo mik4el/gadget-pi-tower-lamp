@@ -1,6 +1,5 @@
 import os
 import time
-from PIL import ImageTk
 from tkinter import *
 from helpers import hexFromRGB
 
@@ -47,12 +46,15 @@ class PITowerLampVisualization:
         if self.towerModel:
             # Draw windows
             for i in range(10):
-                self.canvas.create_rectangle(0, 100*i, 200, 100*(1+i), fill=str(hexFromRGB(self.towerModel.allWindowsRGB[9-i])))
+                self.canvas.create_rectangle(0, 100*i, 200, 100*(1+i),
+                                             fill=str(hexFromRGB(self.towerModel.allWindowsRGB[9-i])))
 
             # Draw average RGB block
             self.canvas.create_rectangle(250, 350, 450, 450, fill=hexFromRGB(self.towerModel.averageWindowRGB))
 
             # Draw tower visualization
+            from PIL import ImageTk  # Avoid ImageTK on raspi in daemon mode so only import when you run visualization
+
             tkImage = ImageTk.PhotoImage(self.towerModel.image)
             self.canvas.create_image(900, 500, image=tkImage)
 
