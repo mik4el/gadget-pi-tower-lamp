@@ -1,11 +1,12 @@
+import queue
 import unittest
 from PIL import Image
-import Queue
-from models import PILampModel, PITowerModel
 from controllers import PITowerController
-from views import PITowerLampVisualization, PITowerLampRGBLED
 from helpers import hexFromRGB
 from mock import Mock
+
+from models import PILampModel, PITowerModel
+from views import PITowerLampVisualization, PITowerLampRGBLED
 
 TEST_IMAGE_NAME = "tower_test_01.jpg"
 
@@ -117,8 +118,8 @@ class TestPITowerModel(unittest.TestCase):
 
 class TestPITowerController(unittest.TestCase):
     def setUp(self):
-        self.lampQueue = Queue.Queue()
-        self.towerQueue = Queue.Queue()
+        self.lampQueue = queue.Queue()
+        self.towerQueue = queue.Queue()
         self.imageName = TEST_IMAGE_NAME
         self.towerController = PITowerController(self.imageName, self.towerQueue, self.lampQueue)
         self.image = Image.open(self.imageName)
@@ -221,8 +222,8 @@ class TestPITowerController(unittest.TestCase):
 
 class TestPITowerLampVisualization(unittest.TestCase):
     def setUp(self):
-        self.lampQueue = Queue.Queue()
-        self.towerQueue = Queue.Queue()
+        self.lampQueue = queue.Queue()
+        self.towerQueue = queue.Queue()
         self.lampVisualization = PITowerLampVisualization(self.towerQueue, self.lampQueue)
 
     def test_init_variables_set(self):
@@ -236,8 +237,8 @@ class TestPITowerLampVisualization(unittest.TestCase):
 
 class TestPITowerLampRGBLED(unittest.TestCase):
     def setUp(self):
-        self.lampQueue = Queue.Queue()
-        self.towerQueue = Queue.Queue()
+        self.lampQueue = queue.Queue()
+        self.towerQueue = queue.Queue()
         self.RGBLEDView = PITowerLampRGBLED(self.towerQueue, self.lampQueue)
 
     def test_init_variables_set(self):

@@ -4,10 +4,10 @@ class PILampModel:
         self.g = g
         self.b = b
         self.isOn = isOn
-        print "Lamp model created!"
+        print("Lamp model created!")
 
     def getRGB(self):
-        return self.r, self.g, self.b
+        return int(self.r), int(self.g), int(self.b)
 
 
 class PITowerModel:
@@ -16,10 +16,13 @@ class PITowerModel:
         pixelsInImage = self.image.load()
         self.allWindowsRGB = self.RGBForAllWindows(pixelsInImage)
         self.averageWindowRGB = self.averageRGB(self.allWindowsRGB)
-        print "Tower model created!"
+        print("Tower model created!")
 
     def RGBForPixel(self, x, y, pixelsInImage):
-        return pixelsInImage[x, y]
+        R = pixelsInImage[x, y][0]
+        G = pixelsInImage[x, y][1]
+        B = pixelsInImage[x, y][2]
+        return int(R), int(G), int(B)
 
     def RGBForWindow(self, windowNumber, pixelsInImage):
         POSITION_FOR_WINDOW_NUMBER = {
@@ -55,4 +58,4 @@ class PITowerModel:
         R /= len(arrayOfRGB)
         G /= len(arrayOfRGB)
         B /= len(arrayOfRGB)
-        return R, G, B
+        return int(R), int(G), int(B)

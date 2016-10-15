@@ -1,8 +1,8 @@
-from helpers import hexFromRGB
-from Tkinter import *
-from PIL import ImageTk
-import time
 import os
+import time
+from PIL import ImageTk
+from tkinter import *
+from helpers import hexFromRGB
 
 
 class PITowerLampVisualization:
@@ -57,7 +57,7 @@ class PITowerLampVisualization:
             self.canvas.create_image(900, 500, image=tkImage)
 
             self.canvas.update()
-        print "Canvas redrawn!"
+        print("Canvas redrawn!")
 
 
 class PITowerLampRGBLED:
@@ -83,7 +83,7 @@ class PITowerLampRGBLED:
                         del towerModel
                 time.sleep(0.01)
             except KeyboardInterrupt:
-                print "Exiting!"
+                print("Exiting!")
                 for p in self.pins:
                     os.system('echo "%d=0" > /dev/pi-blaster' % p)
                     os.system('echo "release %d" > /dev/pi-blaster' % p)
@@ -96,10 +96,10 @@ class PITowerLampRGBLED:
                 self.setLight(self.lampModel.getRGB())
             else:
                 self.setLight((0, 0, 0))
-        print "Canvas redrawn!"
+        print("Canvas redrawn!")
 
     def setLight(self, rgb):
-        print "setting",  rgb
+        print("setting", rgb)
         os.system(self.pi_blasterCommandForInput(self.pins[0], ((float(rgb[0]) / 255.0)*self.redScaling)))
         os.system(self.pi_blasterCommandForInput(self.pins[1], ((float(rgb[1]) / 255.0)*self.greenScaling)))
         os.system(self.pi_blasterCommandForInput(self.pins[2], ((float(rgb[2]) / 255.0)*self.blueScaling)))

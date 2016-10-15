@@ -4,15 +4,17 @@ Controlling a circuit of rgb leds in a lamp to show average color of the windows
 ### Tests
 Run tests with this command:
 
+`cd pi-tower-lamp`
 `python -m unittest tests`
 
 ### Running it
 The program can be run in visual mode for developing and debugging and in rgbled mode to control rgb leds.
 
 ####On pi in ~/pi_tower_lamp:
-`./../env/bin/python main.py --mode rgbled > log.txt`
+`docker-compose up`
 
 ####For developing:
+`cd pi-tower-lamp`
 `python main.py --mode visual`
 
 ### Dependencies

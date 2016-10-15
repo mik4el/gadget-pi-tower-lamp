@@ -1,8 +1,9 @@
-import Queue
-from controllers import PITowerController
-from views import PITowerLampVisualization, PITowerLampRGBLED
+import queue
 import argparse
+from controllers import PITowerController
 from time import sleep
+
+from views import PITowerLampVisualization, PITowerLampRGBLED
 
 
 def main():
@@ -12,8 +13,8 @@ def main():
     args = parser.parse_args()
 
     # Create controller queue for communication between controller and view
-    towerControllerQueue = Queue.Queue()
-    lampControllerQueue = Queue.Queue()
+    towerControllerQueue = queue.Queue()
+    lampControllerQueue = queue.Queue()
 
     # Create and start controller on separate thread
     controllerThread = PITowerController("tower_temp.jpg", towerControllerQueue, lampControllerQueue)
@@ -35,7 +36,7 @@ def main():
         while True:
             if not lampControllerQueue.empty():
                 lamp = lampControllerQueue.get()
-                print lamp.getRGB()
+                print(lamp.getRGB())
                 sleep(0.1)
 
 if __name__ == "__main__":

@@ -1,0 +1,7 @@
+pi-tower-lamp:
+  restart: always
+  build: ./pi-tower-lamp
+  privileged: true
+  command: python main.py --mode rgbled
+  environment:
+    - PYTHONUNBUFFERED=0

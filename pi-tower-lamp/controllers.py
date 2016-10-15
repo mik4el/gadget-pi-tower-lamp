@@ -2,7 +2,7 @@ import threading
 import time
 from PIL import Image, ImageFilter, ImageEnhance
 from models import PILampModel, PITowerModel
-from StringIO import StringIO
+from io import BytesIO
 import requests
 from datetime import datetime
 
@@ -121,21 +121,22 @@ class PITowerController(threading.Thread):
             isDifferent = True
 
         # Print to log
-        print "TowerModel difference:"
-        print "Current: %s, New: %s" %(self.currentTowerModel.averageWindowRGB, newTowerModel.averageWindowRGB)
-        print "diffR: %s changeR: %s, diffG: %s changeG: %s, diffB: %s changeB: %s. Treshold: %s isDifferent: %s" % (diffR, changeR, diffG, changeG, diffB, changeB, CHANGE, isDifferent)
+        print("TowerModel difference:")
+        print("Current: %s, New: %s" % (self.currentTowerModel.averageWindowRGB, newTowerModel.averageWindowRGB))
+        print("diffR: %s changeR: %s, diffG: %s changeG: %s, diffB: %s changeB: %s. Treshold: %s isDifferent: %s" %
+              (diffR, changeR, diffG, changeG, diffB, changeB, CHANGE, isDifferent))
 
         return isDifferent
 
     def downloadTowerImage(self):
-        print "Downloading tower image"
+        print("Downloading tower image")
         if not self.isSimulating:
             try:
                 request = requests.get('http://89.253.86.245//axis-cgi/jpg/image.cgi?resolution=800x450')
-                image = Image.open(StringIO(request.content))
+                image = Image.open(BytesIO(request.content))
             except Exception as e:
-                print e
-                print "Error downloading tower image"
+                print(e)
+                print("Error downloading tower image")
                 return None
             return image
         else:
@@ -190,7 +191,7 @@ class PITowerController(threading.Thread):
             self.updateTower()
         self.updateLamp()  # lamp should update as often as possible
         self.ticks += 1
-        print "%s %s" % (self.ticks, str(datetime.now()))
+        print("%s %s" % (self.ticks, str(datetime.now())))
         time.sleep(self.updateHZ)
 
     def run(self):

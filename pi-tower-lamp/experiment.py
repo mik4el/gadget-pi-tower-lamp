@@ -1,7 +1,7 @@
 import os
 from time import sleep
 
-print "Testing rgb led by cycling colors using pwm with delay."
+print("Testing rgb led by cycling colors using pwm with delay.")
 iter = 0
 delta = 1
 pins = [4, 17, 18]  # 4=R, 17=G, 18=B
@@ -21,7 +21,7 @@ colors = [(77, 43, 218),
 # Cycle array of colors every second
 while True:
     try:
-        print colors[index]
+        print(colors[index])
         os.system('echo "%d=%.2f" > /dev/pi-blaster' % (pins[0], float(colors[index][0]) / 255.0))
         os.system('echo "%d=%.2f" > /dev/pi-blaster' % (pins[1], float(colors[index][1]) / 255.0))
         os.system('echo "%d=%.2f" > /dev/pi-blaster' % (pins[2], float(colors[index][2]) / 255.0))
@@ -30,7 +30,7 @@ while True:
             index = 0
         sleep(1.0)  # max hz for pi-blaster pwm
     except KeyboardInterrupt:
-        print "Exiting!"
+        print("Exiting!")
         for p in pins:
             os.system('echo "%d=0" > /dev/pi-blaster' % p)
             os.system('echo "release %d" > /dev/pi-blaster' % p)
