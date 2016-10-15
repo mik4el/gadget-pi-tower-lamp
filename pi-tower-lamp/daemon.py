@@ -28,8 +28,7 @@ class PITowerLampRGBLED:
         self.greenScaling = 0.2
         self.blueScaling = 0.1
 
-        if sys.argv[1] == "handle_signal":
-            signal.signal(signal.SIGTERM, self.sigterm_handler)
+        signal.signal(signal.SIGTERM, self.sigterm_handler)
 
     def sigterm_handler(self, _signo, _stack_frame):
         # Raises SystemExit(0):

@@ -2,7 +2,14 @@ import queue
 import argparse
 from time import sleep
 from controllers import PITowerController
+import signal, sys
 
+
+def sigterm_handler(self, _signo, _stack_frame):
+    # Raises SystemExit(0):
+    sys.exit(0)
+
+signal.signal(signal.SIGTERM, sigterm_handler)
 
 def main():
     parser = argparse.ArgumentParser(
