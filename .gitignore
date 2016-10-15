@@ -2,3 +2,4 @@ tower_temp.jpg
 *.tar.gz
 *.pyc
 .idea/*
+.DS_Store
