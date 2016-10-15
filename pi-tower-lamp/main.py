@@ -1,10 +1,7 @@
 import queue
 import argparse
 from time import sleep
-
 from controllers import PITowerController
-from daemon import PITowerLampRGBLED
-from visualization import PITowerLampVisualization
 
 
 def main():
@@ -25,11 +22,13 @@ def main():
 
     if args.mode == "visual":
         # Create and start visualization view
+        from visualization import PITowerLampVisualization
         visualization = PITowerLampVisualization(towerControllerQueue, lampControllerQueue)
         visualization.start()
 
     if args.mode == "rgbled":
         # Create and start visualization view
+        from daemon import PITowerLampRGBLED
         visualization = PITowerLampRGBLED(towerControllerQueue, lampControllerQueue)
         visualization.start()
 
