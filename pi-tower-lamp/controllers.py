@@ -8,7 +8,6 @@ from datetime import datetime
 
 
 class PITowerController(threading.Thread):
-
     def __init__(self, imageName, towerControllerQueue, lampControllerQueue):
         threading.Thread.__init__(self)
         self.imageName = imageName
@@ -37,12 +36,12 @@ class PITowerController(threading.Thread):
         # Setup input variables
         self.animationStartRGB = self.currentLampModel.getRGB()
         self.animationEndRGB = self.currentTowerModel.averageWindowRGB
-        self.animationSteps = 1/self.updateHZ
+        self.animationSteps = 1 / self.updateHZ
 
         # Calculate deltas for RGB channels
-        self.animationDeltaR = float((self.animationEndRGB[0]-self.animationStartRGB[0]))/float(self.animationSteps)
-        self.animationDeltaG = float((self.animationEndRGB[1]-self.animationStartRGB[1]))/float(self.animationSteps)
-        self.animationDeltaB = float((self.animationEndRGB[2]-self.animationStartRGB[2]))/float(self.animationSteps)
+        self.animationDeltaR = float((self.animationEndRGB[0] - self.animationStartRGB[0])) / float(self.animationSteps)
+        self.animationDeltaG = float((self.animationEndRGB[1] - self.animationStartRGB[1])) / float(self.animationSteps)
+        self.animationDeltaB = float((self.animationEndRGB[2] - self.animationStartRGB[2])) / float(self.animationSteps)
 
         # Start animation
         self.lampIsAnimating = True
@@ -50,7 +49,7 @@ class PITowerController(threading.Thread):
     def checkLampAnimationReady(self):
         readyRGB = self.currentTowerModel.averageWindowRGB
 
-        #Check if self.currentLampModel matches with readyRGB, set deltas to zero if match
+        # Check if self.currentLampModel matches with readyRGB, set deltas to zero if match
         diffR = readyRGB[0] - self.currentLampModel.r
         if abs(diffR) <= 1:
             self.animationDeltaR = 0.0
@@ -64,7 +63,7 @@ class PITowerController(threading.Thread):
             self.animationDeltaB = 0.0
             self.currentLampModel.b = readyRGB[2]
 
-        #If all deltas == 0.0 then animation is over
+        # If all deltas == 0.0 then animation is over
         if self.animationDeltaR == 0.0 and self.animationDeltaG == 0.0 and self.animationDeltaB == 0.0:
             self.lampIsAnimating = False
 
@@ -96,19 +95,19 @@ class PITowerController(threading.Thread):
 
         # Calculate percentage diff, check that no division by zero
         if self.currentTowerModel.averageWindowRGB[0] != 0:
-            changeR = float(abs(diffR))/float(self.currentTowerModel.averageWindowRGB[0])
+            changeR = float(abs(diffR)) / float(self.currentTowerModel.averageWindowRGB[0])
         else:
-            changeR = float(abs(diffR))/127.5  # half of 255
+            changeR = float(abs(diffR)) / 127.5  # half of 255
 
         if self.currentTowerModel.averageWindowRGB[1] != 0:
-            changeG = float(abs(diffG))/float(self.currentTowerModel.averageWindowRGB[1])
+            changeG = float(abs(diffG)) / float(self.currentTowerModel.averageWindowRGB[1])
         else:
-            changeG = float(abs(diffG))/127.5  # half of 255
+            changeG = float(abs(diffG)) / 127.5  # half of 255
 
         if self.currentTowerModel.averageWindowRGB[2] != 0:
-            changeB = float(abs(diffB))/float(self.currentTowerModel.averageWindowRGB[2])
+            changeB = float(abs(diffB)) / float(self.currentTowerModel.averageWindowRGB[2])
         else:
-            changeB = float(abs(diffB))/127.5  # half of 255
+            changeB = float(abs(diffB)) / 127.5  # half of 255
 
         # Check if change over treshold
         isDifferent = False
@@ -186,12 +185,11 @@ class PITowerController(threading.Thread):
             self.towerModelChanged(towerModel)
 
     def tick(self):
-        if self.ticks == self.tickTowerUpdate + 30/self.updateHZ or self.ticks == 0:
+        if self.ticks == self.tickTowerUpdate + 30 / self.updateHZ or self.ticks == 0:
             self.tickTowerUpdate = self.ticks
             self.updateTower()
         self.updateLamp()  # lamp should update as often as possible
         self.ticks += 1
-        print("%s %s" % (self.ticks, str(datetime.now())))
         time.sleep(self.updateHZ)
 
     def run(self):

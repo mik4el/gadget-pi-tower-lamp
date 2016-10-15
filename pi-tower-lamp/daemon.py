@@ -1,7 +1,5 @@
 import time
 import RPi.GPIO as GPIO
-import signal
-import sys
 
 
 class PITowerLampRGBLED:
@@ -28,23 +26,9 @@ class PITowerLampRGBLED:
         self.greenScaling = 0.2
         self.blueScaling = 0.1
 
-        signal.signal(signal.SIGTERM, self.sigterm_handler)
-
-    def sigterm_handler(self, _signo, _stack_frame):
-        # Raises SystemExit(0):
-        sys.exit(0)
-
-    def cleanup(self):
-        print("Exiting PITowerLampRGBLED")
-        self.red.stop()
-        self.green.stop()
-        self.blue.stop()
-        GPIO.cleanup()
-        exit()
-
     def start(self):
-        try:
-            while True:
+        while True:
+            try:
                 # Only redraw if new item in controllerQueue
                 if not self.lampControllerQueue.empty():
                     self.lampModel = self.lampControllerQueue.get()
@@ -54,8 +38,13 @@ class PITowerLampRGBLED:
                         tower_model = self.towerControllerQueue.get()
                         del tower_model
                 time.sleep(0.01)
-        finally:
-            self.cleanup(self)
+            except KeyboardInterrupt:
+                print("Exiting!")
+                self.red.stop()
+                self.green.stop()
+                self.blue.stop()
+                GPIO.cleanup()
+                exit()
 
     def redraw(self):
         # Draw lampModel
@@ -64,10 +53,9 @@ class PITowerLampRGBLED:
                 self.set_light(self.lampModel.getRGB())
             else:
                 self.set_light((0, 0, 0))
-        print("Canvas redrawn!")
 
     def set_light(self, rgb):
-        print("setting", rgb)
+        print("Setting", rgb)
         self.red.ChangeDutyCycle((float(rgb[0]) / 255.0)*self.redScaling*100.0)
         self.green.ChangeDutyCycle((float(rgb[1]) / 255.0)*self.greenScaling*100.0)
         self.blue.ChangeDutyCycle((float(rgb[2]) / 255.0)*self.blueScaling*100.0)
