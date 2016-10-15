@@ -7,12 +7,11 @@ class PITowerLampRGBLED:
         self.towerControllerQueue = towerControllerQueue
         self.lampControllerQueue = lampControllerQueue
         self.lampModel = None
-
         # Setup GPIOs
         GPIO.setmode(GPIO.BOARD)
-        pin_red = 14
-        pin_green = 15
-        pin_blue = 18
+        pin_red = 3
+        pin_green = 5
+        pin_blue = 7
         GPIO.setup(pin_red, GPIO.OUT)
         GPIO.setup(pin_green, GPIO.OUT)
         GPIO.setup(pin_blue, GPIO.OUT)
