@@ -37,7 +37,6 @@ class PITowerLampRGBLED:
                         # avoid memory leak
                         tower_model = self.towerControllerQueue.get()
                         del tower_model
-                time.sleep(0.01)
             except KeyboardInterrupt:
                 print("Exiting!")
                 self.red.stop()
@@ -56,6 +55,9 @@ class PITowerLampRGBLED:
 
     def set_light(self, rgb):
         print("Setting", rgb)
-        self.red.ChangeDutyCycle((float(rgb[0]) / 255.0)*self.redScaling*100.0)
-        self.green.ChangeDutyCycle((float(rgb[1]) / 255.0)*self.greenScaling*100.0)
-        self.blue.ChangeDutyCycle((float(rgb[2]) / 255.0)*self.blueScaling*100.0)
+        #self.red.ChangeDutyCycle((float(rgb[0]) / 255.0) * self.redScaling * 100.0)
+        #self.green.ChangeDutyCycle((float(rgb[1]) / 255.0) * self.greenScaling * 100.0)
+        #self.blue.ChangeDutyCycle((float(rgb[2]) / 255.0) * self.blueScaling * 100.0)
+        self.red.ChangeDutyCycle(255.0)
+        self.green.ChangeDutyCycle(0.0)
+        self.blue.ChangeDutyCycle(0.0)
