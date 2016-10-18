@@ -8,7 +8,7 @@ class PITowerLampRGBLED:
         self.lampModel = None
         self.pins = [2, 3, 4]
         self.redScaling = 1.0
-        self.greenScaling = 0.2
+        self.greenScaling = 0.3
         self.blueScaling = 0.1
 
     def start(self):
