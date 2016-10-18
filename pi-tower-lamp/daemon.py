@@ -15,7 +15,7 @@ class PITowerLampRGBLED:
         GPIO.setup(pin_red, GPIO.OUT)
         GPIO.setup(pin_green, GPIO.OUT)
         GPIO.setup(pin_blue, GPIO.OUT)
-        freq = 100  # Hz
+        freq = 1000  # Hz
         self.red = GPIO.PWM(pin_red, freq)
         self.red.start(0)  # Initial duty cycle of 0, so off
         self.green = GPIO.PWM(pin_green, freq)
@@ -23,8 +23,8 @@ class PITowerLampRGBLED:
         self.blue = GPIO.PWM(pin_blue, freq)
         self.blue.start(0)
         self.redScaling = 1.0
-        self.greenScaling = 0.6
-        self.blueScaling = 0.4
+        self.greenScaling = 0.4
+        self.blueScaling = 0.1
 
     def start(self):
         while True:
