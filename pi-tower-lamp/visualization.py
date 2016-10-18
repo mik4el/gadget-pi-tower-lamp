@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import ImageTk  # Avoid tkinter on raspi in daemon mode so only import when you run visualization
 from helpers import hexFromRGB
-
+import time
 
 class PITowerLampVisualization:
     def __init__(self, towerControllerQueue, lampControllerQueue):
