@@ -6,7 +6,7 @@ class PITowerLampRGBLED:
         self.towerControllerQueue = towerControllerQueue
         self.lampControllerQueue = lampControllerQueue
         self.lampModel = None
-        self.pins = [3, 5, 7]
+        self.pins = [2, 3, 4]
         self.redScaling = 1.0
         self.greenScaling = 0.2
         self.blueScaling = 0.1
