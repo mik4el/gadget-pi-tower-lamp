@@ -16,8 +16,7 @@ python -m unittest tests
 The program can be run in visual mode for developing and debugging and in rgbled mode to control rgb leds.
 
 ### First time on pi
-1. Install pi-blaster (https://github.com/sarfata/pi-blaster), tested with rpi.gpio which gave unstable pwm.
-1. Setup pi-blaster to use only the ports we want, e.g. `sudo ./pi-blaster --gpio 2,3,4`
+1. Install pi-blaster (https://github.com/sarfata/pi-blaster or my fork that works with gpio pins 2,3 and 4 from https://github.com/mik4el/pi-blaster).
 1. `docker-compose up -d`
 
 ### For developing:
