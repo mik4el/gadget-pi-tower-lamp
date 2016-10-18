@@ -1,3 +1,2 @@
 Pillow==3.4.1
-rpi.gpio
 requests
