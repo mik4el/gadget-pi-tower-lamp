@@ -23,8 +23,8 @@ class PITowerLampRGBLED:
         self.blue = GPIO.PWM(pin_blue, freq)
         self.blue.start(0)
         self.redScaling = 1.0
-        self.greenScaling = 0.2
-        self.blueScaling = 0.1
+        self.greenScaling = 0.6
+        self.blueScaling = 0.4
 
     def start(self):
         while True:
@@ -55,9 +55,6 @@ class PITowerLampRGBLED:
 
     def set_light(self, rgb):
         print("Setting", rgb)
-        #self.red.ChangeDutyCycle((float(rgb[0]) / 255.0) * self.redScaling * 100.0)
-        #self.green.ChangeDutyCycle((float(rgb[1]) / 255.0) * self.greenScaling * 100.0)
-        #self.blue.ChangeDutyCycle((float(rgb[2]) / 255.0) * self.blueScaling * 100.0)
-        self.red.ChangeDutyCycle(255.0)
-        self.green.ChangeDutyCycle(0.0)
-        self.blue.ChangeDutyCycle(0.0)
+        self.red.ChangeDutyCycle((float(rgb[0]) / 255.0) * self.redScaling * 100.0)
+        self.green.ChangeDutyCycle((float(rgb[1]) / 255.0) * self.greenScaling * 100.0)
+        self.blue.ChangeDutyCycle((float(rgb[2]) / 255.0) * self.blueScaling * 100.0)
