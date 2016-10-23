@@ -21,16 +21,16 @@ class DataAuther:
 
 
 class DataPosterWorker(threading.Thread):
-    def __init__(self, token, base_url, data_string, status_queue):
+    def __init__(self, token, base_url, data, status_queue):
         threading.Thread.__init__(self)
         gadget_slug = "pi-tower-lamp"
         self.post_url = base_url + '/backend/api/v1/gadgets/' + gadget_slug + '/data/'
         self.headers = {'Authorization': 'Bearer ' + token}
-        self.data_string = data_string
+        self.data = data
         self.status_queue = status_queue
 
     def run(self):
-        self.post_data_from_string(self.data_string)
+        self.post_data(self.data)
 
     def update_status(self, message):
         self.status_queue.put(message)
@@ -51,15 +51,6 @@ class DataPosterWorker(threading.Thread):
             self.update_status("Request not ok when posting.")
         else:
             self.update_status("Posted: '{}'".format(data))
-
-    def data_from_string(self, data_string):
-        # validate data or update status
-        data = json.loads(data_string)
-        assert (len(data) > 0)
-        return data
-
-    def post_data_from_string(self, data_string):
-        self.post_data(self.data_from_string(data_string))
 
 
 class PITowerLampRGBLED:
@@ -99,12 +90,12 @@ class PITowerLampRGBLED:
                 if not self.lampControllerQueue.empty():
                     self.lampModel = self.lampControllerQueue.get()
                     self.redraw()
-                    data = {"color": self.lampModel.getRGB()}
-                    data_poster = DataPosterWorker(token, self.base_url, data, self.status_queue)
-                    data_poster.start()
                     if not self.towerControllerQueue.empty():
                         # avoid memory leak
                         tower_model = self.towerControllerQueue.get()
+                        data = {"average_window_rgb": tower_model.averageWindowRGB, "all_windows_rgb": tower_model.allWindowsRGB}
+                        data_poster = DataPosterWorker(token, self.base_url, data, self.status_queue)
+                        data_poster.start()
                         del tower_model
             except KeyboardInterrupt:
                 print("Exiting!")
