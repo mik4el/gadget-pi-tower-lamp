@@ -6,5 +6,4 @@ pi-tower-lamp:
   volumes:
     - ./pi-tower-lamp:/usr/src/app/
     - /dev/pi-blaster:/dev/pi-blaster
-  environment:
-    - PYTHONUNBUFFERED=0
+  env_file: .env

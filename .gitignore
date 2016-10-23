@@ -4,3 +4,4 @@ tower_temp.jpg
 .idea/*
 .DS_Store
 pi-tower-lamp/__pycache__/
+.env
