@@ -1,9 +1,17 @@
-pi-tower-lamp:
-  restart: always
-  build: ./pi-tower-lamp
-  privileged: true
-  command: python main.py --mode rgbled
-  volumes:
-    - ./pi-tower-lamp:/usr/src/app/
-    - /dev/pi-blaster:/dev/pi-blaster
-  env_file: .env
+version: '2'
+
+services:
+  pi-tower-lamp:
+    restart: always
+    build: ./pi-tower-lamp
+    privileged: true
+    command: python main.py --mode rgbled
+    volumes:
+      - ./pi-tower-lamp:/usr/src/app/
+      - /dev/pi-blaster:/dev/pi-blaster
+    env_file: .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "1"
