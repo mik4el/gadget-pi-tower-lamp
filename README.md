@@ -17,6 +17,7 @@ The program can be run in visual mode for developing and debugging and in rgbled
 
 ### First time on pi
 1. Install pi-blaster (https://github.com/sarfata/pi-blaster or my fork that works with gpio pins 2, 3 and 4 from https://github.com/mik4el/pi-blaster).
+1. Make local copy of `.env.sample` to `.env` and fill in.
 1. `docker-compose up -d`
 
 ### For developing:
