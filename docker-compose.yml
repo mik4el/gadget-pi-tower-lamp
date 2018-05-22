@@ -11,7 +11,4 @@ services:
       - /dev/pi-blaster:/dev/pi-blaster
     env_file: .env
     logging:
-      driver: "json-file"
-      options:
-        max-size: "1M"
-        max-file: "1"
+      driver: "none"
